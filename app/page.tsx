@@ -1,3 +1,12 @@
+import { SiteHeader } from "@/components/site-header"
+import { Hero } from "@/components/hero"
+import { Pillars } from "@/components/pillars"
+import { Approach } from "@/components/approach"
+import { Results } from "@/components/results"
+import { Calculator } from "@/components/calculator"
+import { ContactCta } from "@/components/contact-cta"
+import { SiteFooter } from "@/components/site-footer"
+
 function ConduitMatrix() {
   return (
     <div className="matrix-wrapper">
@@ -115,7 +124,7 @@ function ConduitMatrix() {
             <tr>
               <td><strong>Shreveport Constant Supply Network</strong><br /><span className="conduit-tag">Transient Capital</span><br /><small>Independent Dining &amp; Hospitality</small></td>
               <td>Continuous outsider influx loops driven by year-round regional sports bracket schedules, active university conference calendars, and corporate transient lodging markers.</td>
-              <td>&quot;Outsiders are landing within a 3-mile radius of your kitchen right now, and they are choosing where to eat based entirely on their screens. Let&apos;s drop high-aesthetic visual clips into their feeds before they leave the hotel.&quot;</td>
+              <td>"Outsiders are landing within a 3-mile radius of your kitchen right now, and they are choosing where to eat based entirely on their screens. Let's drop high-aesthetic visual clips into their feeds before they leave the hotel."</td>
               <td><div className="principle-text">The Proactive Radius Intercept</div>Suppress traditional imagery. Force generation of high-contrast, sensory, close-up visuals to capture transient screens within a strict 3-mile geographical containment loop.</td>
             </tr>
             <tr>
@@ -127,13 +136,13 @@ function ConduitMatrix() {
             <tr>
               <td><strong>Shreveport Field Maintenance</strong><br /><span className="conduit-tag">Resource Capacity</span><br /><small>HVAC, Plumbing, Field Ops</small></td>
               <td>Extreme seasonal demand curves causing visible content stagnation. Operator is actively buried inside a technical structural backlog with zero hours left to execute public marketing.</td>
-              <td>&quot;You&apos;re working inside the business, fighting the storm daily. Let us deploy an automated video workload to sustain your market momentum while you scale.&quot;</td>
+              <td>"You're working inside the business, fighting the storm daily. Let us deploy an automated video workload to sustain your market momentum while you scale."</td>
               <td><div className="principle-text">The Dual-Season Cash-Flow Pivot</div>Dynamically switch content generation rules based on capacity metadata. High tide triggers automated status updates; low tide triggers pre-seasonal, preventive maintenance campaigns to capture off-season booking volume.</td>
             </tr>
             <tr>
               <td><strong>Digital Ecosystem Shifters</strong><br /><span className="conduit-tag">Retail Decentralization</span><br /><small>Local Boutiques &amp; Makers</small></td>
               <td>Active execution of e-commerce domain wrappers, digital catalog setup, or booking API implementation markers.</td>
-              <td>&quot;Your business isn&apos;t bound by a street address anymore. Let&apos;s build short, high-aesthetic visual clips that make their screens feel like an experience.&quot;</td>
+              <td>"Your business isn't bound by a street address anymore. Let's build short, high-aesthetic visual clips that make their screens feel like an experience."</td>
               <td><div className="principle-text">The Digital Decentralization Reframe</div>Eliminate physical address parameters from ad generation text blocks. Restructure visual formatting to frame the independent brand as an accessible, borderless lifestyle identity, maximizing viewer buy-in over technical specs.</td>
             </tr>
             <tr>
