@@ -1,177 +1,155 @@
-import { SiteHeader } from "@/components/site-header"
-import { Hero } from "@/components/hero"
-import { Pillars } from "@/components/pillars"
-import { Approach } from "@/components/approach"
-import { Results } from "@/components/results"
-import { Calculator } from "@/components/calculator"
-import { ContactCta } from "@/components/contact-cta"
-import { SiteFooter } from "@/components/site-footer"
-
-function ConduitMatrix() {
+export default function IgnitusDashboard() {
   return (
-    <div className="matrix-wrapper">
-      <style dangerouslySetInnerHTML={{
-        __html: `
-        .matrix-wrapper {
-          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-          line-height: 1.6;
-          color: #111;
-          max-width: 1450px;
-          margin: 0 auto;
-          padding: 30px;
-          background-color: #fafafa;
-        }
-        .matrix-wrapper h2 {
-          font-size: 1.65rem;
-          color: #000;
-          border-bottom: 2px solid #eaeaea;
-          padding-bottom: 12px;
-          margin-bottom: 5px;
-        }
-        .meta-tagline {
-          color: #555;
-          margin-top: 0;
-          margin-bottom: 30px;
-          font-size: 0.95rem;
-        }
-        .matrix-container {
-          background: #ffffff;
-          border: 1px solid #e2e8f0;
-          border-radius: 8px;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-          overflow-x: auto;
-        }
-        .matrix-container table {
-          width: 100%;
-          border-collapse: collapse;
-          text-align: left;
-          font-size: 0.9rem;
-        }
-        .matrix-container th, .matrix-container td {
-          padding: 16px;
-          border-bottom: 1px solid #edf2f7;
-          vertical-align: top;
-        }
-        .matrix-container th {
-          background-color: #f7fafc;
-          color: #4a5568;
-          font-weight: 600;
-          text-transform: uppercase;
-          font-size: 0.75rem;
-          letter-spacing: 0.5px;
-          white-space: nowrap;
-        }
-        .matrix-container tr:hover {
-          background-color: #f8fafc;
-        }
-        .conduit-tag {
-          display: inline-block;
-          background: #ebf8ff;
-          color: #2b6cb0;
-          border-radius: 4px;
-          padding: 2px 6px;
-          font-size: 0.75rem;
-          font-weight: 600;
-          margin-top: 5px;
-        }
-        .principle-text {
-          font-weight: 600;
-          color: #2b6cb0;
-          font-size: 0.8rem;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-          margin-bottom: 4px;
-        }
-        .hook-text {
-          font-style: italic;
-          color: #4a5568;
-          background: #f7fafc;
-          padding: 10px;
-          border-left: 3px solid #cbd5e1;
-          border-radius: 0 4px 4px 0;
-          font-size: 0.85rem;
-        }
-      `
-      }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{
-        __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Dataset",
-          "name": "Shreveport-Bossier System Optimization & Influx Network",
-          "description": "A programmatic matrix mapping continuous transit capital supply tracking with automated local operational capacity stabilization.",
-          "keywords": ["System Optimization", "Transient Supply Routing", "Capacity Influx Management", "Predictive RevOps"],
-          "creator": {
-            "@type": "Organization",
-            "name": "Ignitus Core Optimization Infrastructure"
-          }
-        })
-      }} />
+    <div className="min-h-screen bg-[#0B0F19] text-[#F8FAFC] font-sans antialiased p-4 md:p-8 selection:bg-red-500/30">
       
-      <h2>Consolidated System Influx &amp; Optimization Matrix</h2>
-      <p className="meta-tagline">Semantic infrastructure layer engineered for programmatic discovery, regional calibration, and zero-jargon partner alignment.</p>
-      
-      <div className="matrix-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Target Field Operation</th>
-              <th>Ingestion Trigger (The Input Supply)</th>
-              <th>Video Agency Output (The Hook Demand)</th>
-              <th>Adaptive Ingestion Principle for PoMELLi (The Machine Rule)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Shreveport Constant Supply Network</strong><br /><span className="conduit-tag">Transient Capital</span><br /><small>Independent Dining &amp; Hospitality</small></td>
-              <td>Continuous outsider influx loops driven by year-round regional sports bracket schedules, active university conference calendars, and corporate transient lodging markers.</td>
-              <td>"Outsiders are landing within a 3-mile radius of your kitchen right now, and they are choosing where to eat based entirely on their screens. Let's drop high-aesthetic visual clips into their feeds before they leave the hotel."</td>
-              <td><div className="principle-text">The Proactive Radius Intercept</div>Suppress traditional imagery. Force generation of high-contrast, sensory, close-up visuals to capture transient screens within a strict 3-mile geographical containment loop.</td>
-            </tr>
-            <tr>
-              <td><strong>Shreveport Reputation Ecosystem</strong><br /><span className="conduit-tag">Engagement Feedback</span><br /><small>High-Velocity Local Commerce</small></td>
-              <td>Silent positive majority consumes and exits without posting. Review profile remains artificially low, creating an inaccurate 1.5-point public rating deficit.</td>
-              <td><strong>Optimization Protocol:</strong> Pivot from reactive customer service to proactive customer engagement. Hardwire a frictionless 1-click text validation prompt right at the endpoint of consumption.</td>
-              <td><div className="principle-text">The Silent Majority Inversion</div>Programmatically target and prompt high-satisfaction consumer groups at the exact moment of ingestion. Generate hyper-casual, low-friction text validation loops to correct historical rating decay.</td>
-            </tr>
-            <tr>
-              <td><strong>Shreveport Field Maintenance</strong><br /><span className="conduit-tag">Resource Capacity</span><br /><small>HVAC, Plumbing, Field Ops</small></td>
-              <td>Extreme seasonal demand curves causing visible content stagnation. Operator is actively buried inside a technical structural backlog with zero hours left to execute public marketing.</td>
-              <td>"You're working inside the business, fighting the storm daily. Let us deploy an automated video workload to sustain your market momentum while you scale."</td>
-              <td><div className="principle-text">The Dual-Season Cash-Flow Pivot</div>Dynamically switch content generation rules based on capacity metadata. High tide triggers automated status updates; low tide triggers pre-seasonal, preventive maintenance campaigns to capture off-season booking volume.</td>
-            </tr>
-            <tr>
-              <td><strong>Digital Ecosystem Shifters</strong><br /><span className="conduit-tag">Retail Decentralization</span><br /><small>Local Boutiques &amp; Makers</small></td>
-              <td>Active execution of e-commerce domain wrappers, digital catalog setup, or booking API implementation markers.</td>
-              <td>"Your business isn't bound by a street address anymore. Let's build short, high-aesthetic visual clips that make their screens feel like an experience."</td>
-              <td><div className="principle-text">The Digital Decentralization Reframe</div>Eliminate physical address parameters from ad generation text blocks. Restructure visual formatting to frame the independent brand as an accessible, borderless lifestyle identity, maximizing viewer buy-in over technical specs.</td>
-            </tr>
-            <tr>
-              <td><strong>Shreveport Clinical Operations</strong><br /><span className="conduit-tag">Pipeline Insulation</span><br /><small>Private Practices &amp; Day Spas</small></td>
-              <td>Intake bottlenecks, administrative processing logjams, and booking pipeline friction limiting field output.</td>
-              <td><strong>Systemic Remedy:</strong> Strip out the technical bottleneck tags. Deploy streamlined intake automation to protect authority and connect their care directly to neighborhood demand.</td>
-              <td><div className="principle-text">The Human Connection De-Bloating Rule</div>Systematically strip out all clinical, bureaucratic, or scientific jargon from caption generation. Force the output language to remain universally approachable and trust-focused, positioning the provider as an undisputed community ally.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  )
-}
+      {/* Header Matrix */}
+      <header className="max-w-6xl mx-auto mb-12 border-b border-slate-800 pb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
+            IGNITUS NEXUS
+          </h1>
+          <p className="text-xs tracking-widest uppercase text-slate-500 mt-1">
+            Commercial Outcome & Valueline Architecture // June 14, 2026
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
+          <span className="text-xs font-mono uppercase tracking-wider text-slate-400">VALUELINE MODEL ACTIVE</span>
+        </div>
+      </header>
 
-export default function Page() {
-  return (
-    <div className="min-h-screen bg-background text-foreground">
-      <SiteHeader />
-      <main>
-        <Hero />
-        <ConduitMatrix />
-        <Pillars />
-        <Approach />
-        <Results />
-        <Calculator />
-        <ContactCta />
+      <main className="max-w-6xl mx-auto space-y-12">
+        
+        {/* Core Transformation Narrative */}
+        <section className="bg-slate-950 border border-slate-900 rounded-xl p-6 md:p-8 relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-red-500 to-blue-600" />
+          <h2 className="text-xl font-bold tracking-tight mb-4 text-slate-200">The Call to Adventure: Escaping the Volatility Trap</h2>
+          <p className="text-slate-400 text-sm md:text-base leading-relaxed max-w-4xl">
+            Every local business owner faces a defining challenge: the relentless pressure for immediate revenue clashes with the necessity of building a sustainable, predictable business. Traditional methods burn capital on generic "interest." Ignitus intercepts **Purchase Intent**. We reject slow calendar-day horizons and deploy a non-linear Valueline focused strictly on execution speed, cash-flow velocity, and permanent operational authority.
+          </p>
+        </section>
+
+        {/* The 3-Phase Journey Framework */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-slate-900/30 border border-slate-800 rounded-lg p-6">
+            <div className="text-xs font-mono text-slate-500 mb-2">PHASE 01 // INTELLIGENCE</div>
+            <h3 className="text-lg font-bold text-slate-200 mb-2">Insight</h3>
+            <p className="text-slate-400 text-sm leading-relaxed">
+              Geospatial scraping and data alignment. We map the exact digital clusters of high-intent customers within your specific operational radius.
+            </p>
+          </div>
+          <div className="bg-slate-900/30 border border-slate-800 rounded-lg p-6 relative">
+            <div className="absolute top-0 right-0 px-2 py-0.5 text-[9px] bg-red-950 text-red-400 border-l border-b border-red-900 font-mono">KINETIC</div>
+            <div className="text-xs font-mono text-slate-500 mb-2">PHASE 02 // VELOCITY</div>
+            <h3 className="text-lg font-bold text-slate-200 mb-2">Activation</h3>
+            <p className="text-slate-400 text-sm leading-relaxed">
+              High-speed deployment. Integrating directly with major ad infrastructure to target immediate buyer behaviors and spike transactional velocity.
+            </p>
+          </div>
+          <div className="bg-slate-900/30 border border-slate-800 rounded-lg p-6">
+            <div className="text-xs font-mono text-slate-500 mb-2">PHASE 03 // AUTOPILOT</div>
+            <h3 className="text-lg font-bold text-slate-200 mb-2">Nexus</h3>
+            <p className="text-slate-400 text-sm leading-relaxed">
+              The continuous feedback loop. Self-optimizing engine instances that permanently capture demand and scale down customer acquisition costs.
+            </p>
+          </div>
+        </section>
+
+        {/* The Dynamic Valueline Milestones Matrix */}
+        <section className="space-y-4">
+          <h2 className="text-lg font-bold uppercase tracking-wider text-slate-400">The Ignitus Valueline</h2>
+          <div className="overflow-x-auto border border-slate-800 rounded-lg bg-slate-900/20">
+            <table className="w-full text-left border-collapse text-sm">
+              <thead>
+                <tr className="border-b border-slate-800 bg-slate-900/60 font-mono text-xs uppercase tracking-wider text-slate-400">
+                  <th className="p-4">Valueline Node</th>
+                  <th className="p-4">Operational Status</th>
+                  <th className="p-4">Commercial Consequence</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-800/60 text-slate-300">
+                <tr>
+                  <td className="p-4 font-mono text-xs text-red-400 font-bold">NODE I: INTENT CAPTURE</td>
+                  <td className="p-4">Scraping & Active API webhooks trigger.</td>
+                  <td className="p-4">Immediate identification of active buyer signals, skipping generic browsing traffic entirely.</td>
+                </tr>
+                <tr>
+                  <td className="p-4 font-mono text-xs text-blue-400 font-bold">NODE II: TRANSACTION MATRIX</td>
+                  <td className="p-4">Next.js frontends & LangChain router agents deploy.</td>
+                  <td className="p-4">Drastic reduction in lead friction. Converts intent signals straight into calls, bookings, and cash flow.</td>
+                </tr>
+                <tr>
+                  <td className="p-4 font-mono text-xs text-emerald-400 font-bold">NODE III: SOVEREIGN AUTOPILOT</td>
+                  <td className="p-4">Vertex AI & BigQuery analytical feedback loops lock down.</td>
+                  <td className="p-4">Customer acquisition costs systematically collapse. You own a self-optimizing system instead of renting ad campaigns.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        {/* Value Investment Tier Stack */}
+        <section className="space-y-4">
+          <h2 className="text-lg font-bold uppercase tracking-wider text-slate-400">Value-Driven Pricing Structure</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="border border-slate-800 bg-slate-900/40 rounded-lg p-6 flex flex-col justify-between">
+              <div>
+                <div className="text-xs font-mono text-slate-500 uppercase">Phase 1</div>
+                <h3 className="text-xl font-bold text-white mt-1">Insight Architecture</h3>
+                <p className="text-slate-400 text-xs mt-3 leading-relaxed">
+                  Deep Discovery & Strategic Mapping. Delivers a verified Local Market Exploitation Map isolating immediate high-intent pockets.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-slate-800 text-sm font-mono text-slate-300">
+                Investment: <span className="text-white font-bold">Fixed Fee</span>
+              </div>
+            </div>
+
+            <div className="border border-red-900 bg-slate-900/60 rounded-lg p-6 flex flex-col justify-between relative shadow-lg shadow-red-950/20">
+              <div className="absolute -top-3 left-6 px-2 py-0.5 bg-red-600 text-white rounded text-[10px] font-bold tracking-widest uppercase">
+                Velocity Inbound
+              </div>
+              <div>
+                <div className="text-xs font-mono text-red-400 uppercase">Phase 2</div>
+                <h3 className="text-xl font-bold text-white mt-1">Activation Engine</h3>
+                <p className="text-slate-300 text-xs mt-3 leading-relaxed">
+                  High-Velocity Campaign Deployment. Engineered for immediate, measurable spikes in local transactional cash flow and direct ROI confirmation.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-slate-800 text-sm font-mono text-red-400">
+                Investment: <span className="text-white font-bold">% of Ad Spend + Bonus</span>
+              </div>
+            </div>
+
+            <div className="border border-slate-800 bg-slate-900/40 rounded-lg p-6 flex flex-col justify-between">
+              <div>
+                <div className="text-xs font-mono text-slate-500 uppercase">Phase 3</div>
+                <h3 className="text-xl font-bold text-white mt-1">Nexus Integration</h3>
+                <p className="text-slate-400 text-xs mt-3 leading-relaxed">
+                  Continuous Systems Optimization. A self-contained, sovereign digital growth ecosystem that automates workflows and drives long-term equity.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-slate-800 text-sm font-mono text-slate-300">
+                Investment: <span className="text-white font-bold Recurring">Tiered Subscription</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Founder Alignment Banner */}
+        <footer className="bg-slate-900/20 border border-slate-800/80 rounded-xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+          <div className="space-y-1">
+            <h4 className="text-sm font-bold uppercase text-slate-300 tracking-wider">The Ignitus Promise // Lead Systems Architect</h4>
+            <p className="text-xs text-slate-500 max-w-2xl leading-relaxed">
+              Engineered by Sylvester Bhatti. Synchronizing deep backend operational design directly with frontend commercial currency to liberate local enterprises from the macro volatility trap.
+            </p>
+          </div>
+          <span className="px-3 py-1 bg-slate-800 rounded text-xs font-mono tracking-wider text-slate-300 shrink-0">
+            v2.0.Valueline
+          </span>
+        </footer>
+
       </main>
-      <SiteFooter />
     </div>
   )
 }
