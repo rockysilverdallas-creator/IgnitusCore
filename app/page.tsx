@@ -1,2 +1,5 @@
+import ManifestDisplay from "@/app/components/ManifestDisplay";
 
-Deployment Manifest (Vercel-Ready): {{DATA:DOCUMENT:DOCUMENT_9}}
+export default function Home() {
+  return <ManifestDisplay />;
+}
