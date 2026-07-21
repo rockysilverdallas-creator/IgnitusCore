@@ -1,0 +1,13 @@
+{
+  "buildCommand": "next build",
+  "outputDirectory": ".next",
+  "env": {
+    "NEXT_PUBLIC_DEPLOYMENT_STATUS": "production"
+  },
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "destination": "/api/:path*"
+    }
+  ]
+}
