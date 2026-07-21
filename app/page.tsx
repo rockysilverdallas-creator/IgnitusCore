@@ -2,24 +2,41 @@ import ManifestDisplay from "@/components/ManifestDisplay";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100 flex flex-col items-center justify-start px-4 py-12 md:py-20">
-      {/* Background Subtle Gradient */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-slate-950 to-slate-950 -z-10 pointer-events-none" />
+    <main className="min-h-screen bg-[#0b1326] text-[#dae2fd] flex flex-col items-center justify-start px-4 md:px-10 py-10 max-w-[1440px] mx-auto font-sans">
+      
+      {/* Top Status Header - Technical Brutalism Tag */}
+      <div className="w-full max-w-[1024px] mb-6 flex justify-between items-center border-b border-[#222a3d] pb-3">
+        <div className="flex items-center gap-2">
+          <span className="w-2 h-2 bg-[#ceee93] inline-block animate-pulse"></span>
+          <span className="font-mono text-[12px] uppercase tracking-[0.05em] text-[#ceee93]">
+            SYSTEM ONLINE // EXECUTIVE DEMO
+          </span>
+        </div>
+        <span className="font-mono text-[12px] uppercase tracking-[0.05em] text-[#8f9282]">
+          IGNITUS CORE V1.0
+        </span>
+      </div>
 
-      {/* Video Container with Glow Effect */}
-      <div className="relative w-full max-w-5xl mb-12 group">
-        {/* Ambient Glow */}
-        <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl blur-lg opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200" />
+      {/* Video Container Module */}
+      <div className="w-full max-w-[1024px] mb-10 bg-[#171f33] border border-[#222a3d] focus-within:border-[#ceee93] transition-all duration-150">
+        
+        {/* Module Bar */}
+        <div className="bg-[#131b2e] px-4 py-2 border-b border-[#222a3d] flex justify-between items-center">
+          <span className="font-mono text-[12px] uppercase tracking-[0.05em] text-[#c5c8b7]">
+            [STREAM_01] EXECUTIVE_PRESENTATION.MP4
+          </span>
+          <span className="font-mono text-[12px] text-[#8f9282]">1080P // H.264</span>
+        </div>
 
-        {/* Video Wrapper */}
-        <div className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/80 shadow-2xl backdrop-blur-sm aspect-video">
+        {/* Video Frame (Sharp 0px Corners) */}
+        <div className="relative aspect-video w-full bg-[#060e20]">
           <video 
             controls 
             autoPlay 
             muted 
             loop 
             playsInline
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover rounded-none"
           >
             <source src="/Executive_in_blue_suit_202606120303.mp4" type="video/mp4" />
             Your browser does not support the video tag.
@@ -27,10 +44,11 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Manifest Display Component */}
-      <div className="w-full max-w-5xl">
+      {/* Manifest Display Section */}
+      <div className="w-full max-w-[1024px] bg-[#171f33] border border-[#222a3d]">
         <ManifestDisplay />
       </div>
+
     </main>
   );
 }
