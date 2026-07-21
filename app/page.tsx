@@ -1,4 +1,4 @@
-import ManifestDisplay from "@/app/components/ManifestDisplay";
+import ManifestDisplay from "./components/ManifestDisplay";
 
 export default function Home() {
   return <ManifestDisplay />;
