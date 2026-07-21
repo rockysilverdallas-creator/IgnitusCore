@@ -1,4 +1,4 @@
-export default function Home() {
+export default function Home( ) {
   return (
     <main className="min-h-screen bg-[#0b1326] text-[#dae2fd] flex flex-col items-center justify-start px-4 md:px-10 py-10 max-w-[1440px] mx-auto font-sans">
       
