@@ -1,6 +1,7 @@
 {
   "version": 2,
   "name": "ignitus-ecosystem-core",
+  "outputDirectory": "public",
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
