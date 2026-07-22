@@ -1,7 +1,23 @@
 {
-  "buildCommand": "next build",
-  "outputDirectory": ".next",
-  "env": {
-    "NEXT_PUBLIC_DEPLOYMENT_STATUS": "production"
-  }
+  "version": 2,
+  "name": "ignitus-ecosystem-core",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/orchestration", "destination": "/orchestration.html" },
+    { "source": "/nexus", "destination": "/nexus.html" },
+    { "source": "/narrative", "destination": "/narrative.html" },
+    { "source": "/command", "destination": "/command/dashboard.html" },
+    { "source": "/command/(.*)", "destination": "/command/$1" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" }
+      ]
+    }
+  ]
 }
