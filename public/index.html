@@ -89,7 +89,7 @@
     .video-tile { background:var(--card); border:1px solid var(--border); border-radius:8px; overflow:hidden; transition:border-color 0.2s,transform 0.2s; }
     .video-tile:hover { border-color:var(--lime); transform:translateY(-2px); }
     .video-tile-wrap { position:relative; width:100%; padding-top:56.25%; background:#000; }
-    .video-tile-wrap video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+    .video-tile-wrap video { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; background:#000; cursor:pointer; }
     .video-tile-label { padding:0.75rem 1rem; font-family:'Space Mono',monospace; font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; }
 
     /* SCROLL FADE-IN */
@@ -225,14 +225,14 @@
       <div class="video-wall-text">
         <div class="section-tag">[PROOF_OF_WORK]</div>
         <h2>$50. 35 minutes. Three things done.</h2>
-        <p>Smart reply on your line so no caller slips away. A 20-second video for your socials. A Google profile polish with a direct text button. This is what we deliver — and what you see below is how we do it.</p>
+        <p>For a limited time, you can try a bite-sized sample of what we can deliver for just $50. You can see our velocity and the quality of our work for yourself. Go ahead, click below to get started.</p>
         <a href="sms:+19453535789?body=YES" class="video-wall-cta">Reply YES to lock it in &rarr;</a>
       </div>
     </div>
     <div class="video-grid">
       <div class="video-tile fade-in">
         <div class="video-tile-wrap">
-          <video autoplay muted loop playsinline preload="auto">
+          <video controls playsinline preload="metadata">
             <source src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663762428085/QayFTeKomGpYZZNC.mp4" type="video/mp4" />
           </video>
         </div>
@@ -240,7 +240,7 @@
       </div>
       <div class="video-tile fade-in">
         <div class="video-tile-wrap">
-          <video autoplay muted loop playsinline preload="auto">
+          <video controls playsinline preload="metadata">
             <source src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663762428085/tzRemzsvUUdCcBLy.mp4" type="video/mp4" />
           </video>
         </div>
@@ -248,7 +248,7 @@
       </div>
       <div class="video-tile fade-in">
         <div class="video-tile-wrap">
-          <video autoplay muted loop playsinline preload="auto">
+          <video controls playsinline preload="metadata">
             <source src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663762428085/frhVblSsRSTxbhLg.mp4" type="video/mp4" />
           </video>
         </div>
@@ -256,7 +256,7 @@
       </div>
       <div class="video-tile fade-in">
         <div class="video-tile-wrap">
-          <video autoplay muted loop playsinline preload="auto">
+          <video controls playsinline preload="metadata">
             <source src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663762428085/gNLQSlSKWJgGIYkV.mp4" type="video/mp4" />
           </video>
         </div>
@@ -264,7 +264,7 @@
       </div>
       <div class="video-tile fade-in">
         <div class="video-tile-wrap">
-          <video autoplay muted loop playsinline preload="auto">
+          <video controls playsinline preload="metadata">
             <source src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663762428085/UrMmpUbpJdFbSYyt.mp4" type="video/mp4" />
           </video>
         </div>
@@ -272,7 +272,7 @@
       </div>
       <div class="video-tile fade-in">
         <div class="video-tile-wrap">
-          <video autoplay muted loop playsinline preload="auto">
+          <video controls playsinline preload="metadata">
             <source src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663762428085/WPKwuZaSvpnXIICK.mp4" type="video/mp4" />
           </video>
         </div>
