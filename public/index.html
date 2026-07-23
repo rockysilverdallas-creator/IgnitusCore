@@ -74,6 +74,24 @@
     footer { border-top:1px solid var(--border); padding:2rem; text-align:center; font-size:0.8rem; color:var(--muted); }
     footer a { color:var(--lime); }
 
+    /* VIDEO WALL */
+    .video-wall { max-width:1200px; margin:0 auto; padding:5rem 2rem; }
+    .video-wall-intro { display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center; margin-bottom:3.5rem; }
+    @media(max-width:768px){ .video-wall-intro { grid-template-columns:1fr; } }
+    .video-wall-blitz { border-radius:8px; overflow:hidden; border:1px solid var(--border); }
+    .video-wall-blitz img { width:100%; display:block; object-fit:cover; }
+    .video-wall-text .section-tag { margin-bottom:1rem; }
+    .video-wall-text h2 { font-size:2rem; font-weight:600; margin-bottom:1rem; }
+    .video-wall-text p { color:var(--muted); font-size:0.95rem; line-height:1.7; margin-bottom:2rem; }
+    .video-wall-cta { display:inline-flex; align-items:center; gap:0.75rem; background:var(--lime); color:#0a0f1a; padding:0.75rem 2rem; font-weight:600; font-size:0.9rem; border-radius:4px; }
+    .video-wall-cta:hover { opacity:0.85; }
+    .video-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.25rem; }
+    .video-tile { background:var(--card); border:1px solid var(--border); border-radius:8px; overflow:hidden; transition:border-color 0.2s,transform 0.2s; }
+    .video-tile:hover { border-color:var(--lime); transform:translateY(-2px); }
+    .video-tile-wrap { position:relative; width:100%; padding-top:56.25%; background:#000; }
+    .video-tile-wrap video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+    .video-tile-label { padding:0.75rem 1rem; font-family:'Space Mono',monospace; font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; }
+
     /* SCROLL FADE-IN */
     .fade-in { opacity:0; transform:translateY(24px); transition:opacity 0.6s ease, transform 0.6s ease; }
     .fade-in.visible { opacity:1; transform:translateY(0); }
@@ -194,6 +212,71 @@
           <div class="dispatch-btn-label">Official Handle</div>
           <div class="dispatch-btn-text">@ignituscore</div>
         </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO WALL — The closer. Prospect sees this and says $50? Hell yes. -->
+  <section class="video-wall">
+    <div class="video-wall-intro fade-in">
+      <div class="video-wall-blitz">
+        <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663762428085/oEiGyzzxCCbckxpR.jpeg" alt="Ignitus Blitz Blast" loading="lazy" />
+      </div>
+      <div class="video-wall-text">
+        <div class="section-tag">[PROOF_OF_WORK]</div>
+        <h2>$50. 35 minutes. Three things done.</h2>
+        <p>Smart reply on your line so no caller slips away. A 20-second video for your socials. A Google profile polish with a direct text button. This is what we deliver — and what you see below is how we do it.</p>
+        <a href="sms:+19453535789?body=YES" class="video-wall-cta">Reply YES to lock it in &rarr;</a>
+      </div>
+    </div>
+    <div class="video-grid">
+      <div class="video-tile fade-in">
+        <div class="video-tile-wrap">
+          <video autoplay muted loop playsinline preload="auto">
+            <source src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663762428085/QayFTeKomGpYZZNC.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="video-tile-label">Ignitus Welcome</div>
+      </div>
+      <div class="video-tile fade-in">
+        <div class="video-tile-wrap">
+          <video autoplay muted loop playsinline preload="auto">
+            <source src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663762428085/tzRemzsvUUdCcBLy.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="video-tile-label">Jean's Clip</div>
+      </div>
+      <div class="video-tile fade-in">
+        <div class="video-tile-wrap">
+          <video autoplay muted loop playsinline preload="auto">
+            <source src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663762428085/frhVblSsRSTxbhLg.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="video-tile-label">Jean Simpson — GLOW</div>
+      </div>
+      <div class="video-tile fade-in">
+        <div class="video-tile-wrap">
+          <video autoplay muted loop playsinline preload="auto">
+            <source src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663762428085/gNLQSlSKWJgGIYkV.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="video-tile-label">See for Yourself</div>
+      </div>
+      <div class="video-tile fade-in">
+        <div class="video-tile-wrap">
+          <video autoplay muted loop playsinline preload="auto">
+            <source src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663762428085/UrMmpUbpJdFbSYyt.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="video-tile-label">Creativity</div>
+      </div>
+      <div class="video-tile fade-in">
+        <div class="video-tile-wrap">
+          <video autoplay muted loop playsinline preload="auto">
+            <source src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663762428085/WPKwuZaSvpnXIICK.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="video-tile-label">Apply Now</div>
       </div>
     </div>
   </section>
