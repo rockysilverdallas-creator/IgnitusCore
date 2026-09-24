@@ -1,0 +1,8 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/optin", "destination": "/optin.html" },
+    { "source": "/optin/", "destination": "/optin.html" }
+  ]
+}
