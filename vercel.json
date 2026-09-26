@@ -1,4 +1,18 @@
 {
   "cleanUrls": true,
-  "trailingSlash": true
+  "trailingSlash": true,
+  "rewrites": [
+    { "source": "/api/optin", "destination": "/api/optin/index.json" },
+    { "source": "/api/optin/", "destination": "/api/optin/index.json" },
+    { "source": "/api/ghost_form", "destination": "/api/ghost_form/index.json" },
+    { "source": "/api/ghost_form/", "destination": "/api/ghost_form/index.json" },
+    { "source": "/api/gbp_quote", "destination": "/api/gbp_quote/index.json" },
+    { "source": "/api/gbp_quote/", "destination": "/api/gbp_quote/index.json" },
+    { "source": "/api/twilio/status", "destination": "/api/twilio/status/index.json" },
+    { "source": "/api/twilio/status/", "destination": "/api/twilio/status/index.json" },
+    { "source": "/api/twilio/voice", "destination": "/api/twilio/voice/index.json" },
+    { "source": "/api/twilio/voice/", "destination": "/api/twilio/voice/index.json" },
+    { "source": "/optin", "destination": "/optin/index.html" },
+    { "source": "/optin/", "destination": "/optin/index.html" }
+  ]
 }
