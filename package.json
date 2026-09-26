@@ -1,14 +1,8 @@
 {
-  "name": "ignituscore-remix",
+  "name": "ignituscore",
   "version": "1.0.0",
-  "description": "Ignitus Core Swarm with Agent SHAER, Tiana AI, The Vault, and Vercel MCP SSE Server",
   "type": "module",
-  "main": "index.html",
   "scripts": {
-    "test": "node --check api/sse.js && node --check api/message.js"
-  },
-  "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.6.1",
-    "zod": "^3.24.2"
+    "build": "echo 'Build successful'"
   }
 }
