@@ -1,4 +1,4 @@
-// Vercel Serverless Function: Twilio Status Callback & 3-Second Drop Triage
+// Vercel Serverless Function: Twilio Status Callback & Short Drop Triage
 // Route: /api/twilio/status
 // Mechanism 3: "Hang-Up Before Voicemail" Trap & Short Drop Recovery Callback
 // Automatically dispatches rapid triage SMS when callers hang up in under 10 seconds.
@@ -73,7 +73,7 @@ export default async function handler(req, res) {
     const triageMessage = "Sorry we couldn't grab the line! We're currently on a job in Shreveport—is this an urgent service need?";
     autoSmsTriggered = await sendTwilioSMS(from, triageMessage);
 
-    // Telemetry dispatch to Cloud Run / Firebase Mesh
+    // Telemetry dispatch to Cloud Run / Sovereign Ledger
     try {
       fetch(CLOUD_RUN_SHAER_URL, {
         method: "POST",
@@ -82,7 +82,7 @@ export default async function handler(req, res) {
           client_name: "3-Second Drop Caller",
           contact_phone: from,
           trade_sector: "Short Call Drop Recovery",
-          inquiry: `Inbound caller dropped after ${duration}s (Status: ${callStatus}). Auto SMS triage dispatched.`,
+          inquiry: `Inbound caller dropped after ${duration}s (Status: ${callStatus}). SMS triage dispatched.`,
           source: "twilio_3sec_drop_trap",
           v_bleed_recovered: 1450,
           timestamp_utc: timestamp

@@ -1,7 +1,8 @@
 // Vercel Serverless Function: Ghost Form / Incomplete Form Recovery API
 // Route: /api/ghost_form
-// Mechanism 1: "Ghost Form" / Incomplete Form Recovery (Website Leak)
-// Captures onBlur phone numbers before form submission and fires low-pressure SMS recovery via Twilio.
+// Mechanism 1: Incomplete Form Recovery (Website Leak)
+// GATED: Only sends SMS if prior opt-in consent exists for the mobile number.
+// Unconsented abandonments are logged to telemetry without texting.
 
 import fs from "fs";
 import path from "path";
@@ -29,6 +30,9 @@ const CLOUD_RUN_SHAER_URL = process.env.CLOUD_RUN_SHAER_URL || "https://ignitus-
 const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID;
 const TWILIO_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN;
 const TWILIO_FROM_NUMBER = process.env.TWILIO_FROM_NUMBER || "+18333454785";
+
+// Shared consent store
+globalThis.CONSENTED_PHONES = globalThis.CONSENTED_PHONES || new Set();
 
 async function sendTwilioSMS(toPhone, messageBody) {
   if (!TWILIO_ACCOUNT_SID || !TWILIO_AUTH_TOKEN) return false;
@@ -72,8 +76,9 @@ export default async function handler(req, res) {
   if (req.method === "GET") {
     return res.status(200).json({
       service: "GHOST_FORM_RECOVERY_ENGINE",
-      status: "ARMED_AND_ACTIVE",
-      description: "Captures onBlur phone entry and fires automated 90s recovery SMS via Twilio."
+      status: "ACTIVE",
+      consent_gate_enabled: true,
+      description: "Captures onBlur phone entry. Logs abandonment telemetry; SMS dispatch requires prior opt-in consent."
     });
   }
 
@@ -84,7 +89,7 @@ export default async function handler(req, res) {
   try {
     const {
       phone = "",
-      name = "Neighbor",
+      name = "Visitor",
       trade = "Service Inquiry",
       page_url = "https://ignituscore.com"
     } = req.body || {};
@@ -94,11 +99,23 @@ export default async function handler(req, res) {
     }
 
     const cleanPhone = phone.startsWith("+") ? phone : `+1${phone.replace(/\D/g, "")}`;
-    const recoveryMsg = `Hey ${name}, saw you were checking on an estimate with Ignitus Core in Shreveport. Did your page freeze, or did you still need help today?`;
+    const timestamp = new Date().toISOString();
 
-    const smsSent = await sendTwilioSMS(cleanPhone, recoveryMsg);
+    // STRICT CONSENT GATE CHECK: NO PRIOR OPT-IN = NO TEXT
+    const hasConsent = globalThis.CONSENTED_PHONES.has(cleanPhone);
 
-    // Log telemetry into bleed_posture_matrix via Cloud Run
+    let smsSent = false;
+    let gateReason = "NO_PRIOR_OPT_IN_CONSENT";
+
+    if (hasConsent) {
+      const recoveryMsg = `Hey ${name}, saw you were checking on an estimate with Ignitus Core in Shreveport. Did your page freeze, or did you still need help today?`;
+      smsSent = await sendTwilioSMS(cleanPhone, recoveryMsg);
+      gateReason = "CONSENT_VERIFIED_SMS_DISPATCHED";
+    } else {
+      console.log(`[GHOST FORM CONSENT GATE] ${cleanPhone} has no prior opt-in consent. SMS blocked, logging abandonment telemetry.`);
+    }
+
+    // Always log abandonment telemetry to Cloud Run / Sovereign Ledger
     try {
       fetch(CLOUD_RUN_SHAER_URL, {
         method: "POST",
@@ -107,20 +124,21 @@ export default async function handler(req, res) {
           client_name: name,
           contact_phone: cleanPhone,
           trade_sector: trade,
-          inquiry: `Ghost Form Recovery: User entered phone on ${page_url} without clicking submit. SMS recovery dispatched.`,
-          source: "ghost_form_abandonment_recovery",
-          v_bleed_recovered: 1450,
-          timestamp_utc: new Date().toISOString()
+          inquiry: `Ghost Form Abandonment on ${page_url} (Consent Status: ${hasConsent ? "OPTED_IN" : "GATED_NO_OPT_IN"})`,
+          source: "ghost_form_abandonment",
+          v_bleed_recovered: hasConsent ? 1450 : 0,
+          timestamp_utc: timestamp
         })
       }).catch(() => {});
     } catch (_) {}
 
     return res.status(200).json({
-      status: "SUCCESS",
+      status: hasConsent ? "SUCCESS" : "ABANDONMENT_LOGGED",
       mechanism: "GHOST_FORM_RECOVERY",
       phone: cleanPhone,
       sms_dispatched: smsSent,
-      timestamp: new Date().toISOString()
+      consent_gate_status: gateReason,
+      timestamp
     });
 
   } catch (error) {
