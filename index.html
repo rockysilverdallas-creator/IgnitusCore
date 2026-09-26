@@ -216,13 +216,46 @@
       </p>
     </div>
   </footer>
-<script>
+  <!-- MECHANISM 4: MOBILE CLICK-TO-TEXT INSTANT BRIDGE -->
+  <a href="sms:+18333454785?body=Hi%20Sly%2C%20I%20need%20a%20quick%20quote%20for%20my%20business%20in%20Shreveport." 
+     style="position:fixed; bottom:20px; right:20px; z-index:9999; background:#ceee93; color:#0a0f1a; font-weight:700; font-size:0.85rem; padding:12px 20px; border-radius:50px; text-decoration:none; box-shadow:0 4px 20px rgba(206,238,147,0.4); display:flex; align-items:center; gap:8px; font-family:'Space Mono',monospace;">
+    💬 Tap to Text a Technician Directly
+  </a>
+
+  <script>
     // Scroll reveal
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
     }, { threshold: 0.1 });
     reveals.forEach(el => observer.observe(el));
+
+    // MECHANISM 1: GHOST FORM ONBLUR RECOVERY LISTENER
+    document.addEventListener('DOMContentLoaded', () => {
+      let ghostTimer = null;
+      let capturedPhone = '';
+      
+      document.querySelectorAll('input[type="tel"], input[name*="phone"]').forEach(input => {
+        input.addEventListener('blur', (e) => {
+          const val = e.target.value.trim();
+          if (val.length >= 10 && val !== capturedPhone) {
+            capturedPhone = val;
+            clearTimeout(ghostTimer);
+            ghostTimer = setTimeout(() => {
+              fetch('/api/ghost_form', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  phone: capturedPhone,
+                  name: 'Website Visitor',
+                  page_url: window.location.href
+                })
+              }).catch(() => {});
+            }, 90000); // 90s recovery trigger
+          }
+        });
+      });
+    });
   </script>
 </body>
 </html>
