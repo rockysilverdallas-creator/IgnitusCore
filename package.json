@@ -2,7 +2,7 @@
   "name": "ignituscore",
   "version": "1.0.0",
   "type": "module",
-  "scripts": {
-    "build": "echo 'Build successful'"
+  "dependencies": {
+    "@vercel/node": "^5.1.10"
   }
 }

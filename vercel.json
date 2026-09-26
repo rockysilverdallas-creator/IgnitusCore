@@ -1,8 +1,20 @@
 {
-  "cleanUrls": true,
-  "trailingSlash": true,
-  "rewrites": [
-    { "source": "/optin", "destination": "/optin/index.html" },
-    { "source": "/optin/", "destination": "/optin/index.html" }
+  "version": 2,
+  "builds": [
+    { "src": "api/**/*.js", "use": "@vercel/node" },
+    { "src": "public/**/*", "use": "@vercel/static" },
+    { "src": "*.html", "use": "@vercel/static" },
+    { "src": "optin/*.html", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/api/optin", "dest": "/api/optin.js" },
+    { "src": "/api/optin_consent", "dest": "/api/optin_consent.js" },
+    { "src": "/api/ghost_form", "dest": "/api/ghost_form.js" },
+    { "src": "/api/gbp_quote", "dest": "/api/gbp_quote.js" },
+    { "src": "/api/twilio/status", "dest": "/api/twilio/status.js" },
+    { "src": "/api/twilio/voice", "dest": "/api/twilio/voice.js" },
+    { "src": "/optin", "dest": "/optin/index.html" },
+    { "src": "/optin/", "dest": "/optin/index.html" },
+    { "src": "/(.*)", "dest": "/$1" }
   ]
 }
