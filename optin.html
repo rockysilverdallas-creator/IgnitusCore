@@ -53,10 +53,38 @@
     </div>
 
     <div class="card">
+      <h2>Web & Direct SMS Opt-In Form</h2>
+      <p>Subscribe to receive real-time operational notifications, account alerts, and system dispatches directly from Ignitus Core.</p>
+      
+      <form style="margin-top:1.5rem; display:flex; flex-direction:column; gap:1rem;" onsubmit="event.preventDefault(); document.getElementById('formMsg').style.display='block';">
+        <div>
+          <label style="display:block; font-size:0.85rem; color:var(--text); margin-bottom:0.4rem; font-weight:600;">Full Name</label>
+          <input type="text" placeholder="Jane Doe" required style="width:100%; padding:0.75rem 1rem; border-radius:6px; border:1px solid var(--border); background:#070b13; color:#fff; font-size:0.95rem;">
+        </div>
+        <div>
+          <label style="display:block; font-size:0.85rem; color:var(--text); margin-bottom:0.4rem; font-weight:600;">Mobile Phone Number</label>
+          <input type="tel" placeholder="(318) 555-0199" required style="width:100%; padding:0.75rem 1rem; border-radius:6px; border:1px solid var(--border); background:#070b13; color:#fff; font-size:0.95rem;">
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:0.75rem; margin-top:0.5rem;">
+          <input type="checkbox" id="smsConsent" required style="margin-top:0.25rem; width:18px; height:18px; accent-color:var(--lime); cursor:pointer;">
+          <label for="smsConsent" style="font-size:0.85rem; color:var(--muted); line-height:1.5;">
+            By checking this box, I consent to receive recurring automated SMS notifications, operational updates, and service alerts from <strong>Ignitus Core</strong> at the mobile number provided above. Message and data rates may apply. Message frequency varies. Reply <strong>STOP</strong> to unsubscribe, <strong>HELP</strong> for support. See Privacy Policy below.
+          </label>
+        </div>
+        <button type="submit" style="background:var(--lime); color:#0a0f1a; font-weight:700; font-size:0.95rem; padding:0.85rem 1.5rem; border:none; border-radius:6px; cursor:pointer; margin-top:0.5rem;">
+          Submit SMS Subscription
+        </button>
+        <div id="formMsg" style="display:none; color:var(--lime); font-size:0.9rem; font-weight:600; text-align:center; margin-top:0.5rem;">
+          ✓ Subscription requested successfully. Check your phone for confirmation SMS.
+        </div>
+      </form>
+    </div>
+
+    <div class="card">
       <h2>How You Opt In</h2>
       <p>Ignitus Core provides mission-critical enterprise AI automation, voice agents, and client engagement tools to businesses. Clients and partners opt into our SMS notifications in one of two ways:</p>
-      <p>1. By texting <strong>START</strong> or <strong>YES</strong> to our official verified Toll-Free number <strong>(833) 345-4785</strong>.</p>
-      <p>2. By requesting services or scheduling consultations via our official web platform (<a href="https://ignituscore.com" style="color:var(--lime);">ignituscore.com</a>) and providing verbal or digital opt-in consent to receive appointment alerts, status dispatches, and account notifications.</p>
+      <p>1. By submitting your mobile phone number via the web form above and checking the explicit SMS consent box.</p>
+      <p>2. By texting <strong>START</strong> or <strong>YES</strong> to our official verified Toll-Free number <strong>(833) 345-4785</strong>.</p>
       <p>By opting in, you consent to receive text messages from Ignitus Core at the phone number provided. <strong>Message and data rates may apply. Message frequency varies based on user engagement.</strong></p>
     </div>
 
