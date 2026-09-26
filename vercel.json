@@ -1,12 +1,12 @@
 {
-  "functions": {
-    "api/**/*.js": {
-      "memory": 1024,
-      "maxDuration": 10
-    }
-  },
+  "cleanUrls": true,
   "rewrites": [
     { "source": "/optin", "destination": "/optin/index.html" },
-    { "source": "/optin/", "destination": "/optin/index.html" }
+    { "source": "/optin/", "destination": "/optin/index.html" },
+    { "source": "/api/optin", "destination": "/api_optin.json" },
+    { "source": "/api/ghost_form", "destination": "/api_ghost_form.json" },
+    { "source": "/api/gbp_quote", "destination": "/api_gbp_quote.json" },
+    { "source": "/api/twilio/status", "destination": "/api_twilio_status.json" },
+    { "source": "/api/twilio/voice", "destination": "/api_twilio_voice.json" }
   ]
 }
