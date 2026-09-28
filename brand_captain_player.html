@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>IGNITUS CORE // Brand Captain Strike Theater</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts: Geist & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            geist: ['Geist', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            noir: {
+              pitch: '#030407',
+              base: '#07090e',
+              surface: '#0c0d12',
+              elevated: '#11131a',
+              border: 'rgba(255, 255, 255, 0.08)',
+              borderSubtle: '#27272a'
+            },
+            signal: {
+              red: '#EF4444',
+              redDark: '#7F1D1D',
+              green: '#00FF88',
+              greenDark: '#021F16',
+              cyan: '#00E5FF',
+              amber: '#F59E0B'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    *, ::before, ::after { border-radius: 0px !important; }
+    body { background-color: #030407; color: #F4F4F5; font-family: 'Geist', sans-serif; overflow-x: hidden; }
+    .font-mono-jb { font-family: 'JetBrains Mono', monospace; }
+    .bg-grid {
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+    .hud-box {
+      background-color: #0c0d12;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      position: relative;
+    }
+    .hud-box:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .rail-red { border-top: 2px solid #EF4444; }
+    .rail-green { border-top: 2px solid #00FF88; }
+    .rail-cyan { border-top: 2px solid #00E5FF; }
+    .rail-amber { border-top: 2px solid #F59E0B; }
+    input[type=range] {
+      accent-color: #EF4444;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 1; filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.8)); }
+      50% { opacity: 0.6; filter: drop-shadow(0 0 2px rgba(239, 68, 68, 0.3)); }
+    }
+    .pulse-glow { animation: pulseGlow 2s infinite ease-in-out; }
+  </style>
+</head>
+<body class="bg-[#030407] bg-grid min-h-screen flex flex-col items-center justify-start p-3 sm:p-6 text-zinc-100">
+
+  <!-- ================= TOP PROTOCOL NAVIGATION ================= -->
+  <header class="w-full max-w-5xl mb-4 bg-[#08090d] border border-zinc-800 px-4 py-2.5 font-mono-jb text-xs flex flex-wrap items-center justify-between gap-3 shadow-xl">
+    <div class="flex items-center space-x-2.5">
+      <span class="w-2.5 h-2.5 bg-red-500 pulse-glow"></span>
+      <span class="text-white font-black tracking-wider text-sm">IGNITUS CORE</span>
+      <span class="text-zinc-600">//</span>
+      <span class="text-red-400 font-bold">BRAND CAPTAIN WAR THEATER</span>
+    </div>
+    <div class="flex items-center space-x-1.5 text-[11px]">
+      <a href="/frontline" class="px-2.5 py-1 bg-red-950/60 border border-red-500/50 text-red-300 font-bold hover:bg-red-900 transition"><i class="fa-solid fa-shield mr-1"></i>FRONTLINE</a>
+      <a href="/master" class="px-2 py-1 bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition">MASTER</a>
+      <a href="/cockpit" class="px-2 py-1 bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition">COCKPIT</a>
+      <a href="/chamber" class="px-2 py-1 bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition">CHAMBER</a>
+      <a href="/echo" class="px-2 py-1 bg-zinc-900 border border-zinc-800 text-emerald-400 hover:text-emerald-300 transition">ECHO</a>
+      <a href="/cinema" class="px-2 py-1 bg-zinc-900 border border-zinc-800 text-indigo-400 hover:text-indigo-300 transition">CINEMA</a>
+      <a href="/captions" class="px-2 py-1 bg-zinc-900 border border-zinc-800 text-teal-400 hover:text-teal-300 transition">CAPTIONS</a>
+      <a href="/social" class="px-2 py-1 bg-zinc-900 border border-zinc-800 text-amber-400 hover:text-amber-300 transition">ASSETS</a>
+    </div>
+  </header>
+
+  <!-- ================= LIVE HEMORRHAGE TICKER BANNER ================= -->
+  <div class="w-full max-w-5xl mb-4 bg-red-950/30 border border-red-500/40 p-3.5 flex flex-col md:flex-row justify-between items-start md:items-center gap-3 font-mono-jb text-xs">
+    <div class="flex items-center gap-2.5">
+      <span class="px-2 py-0.5 bg-red-600 text-black font-extrabold uppercase tracking-wider text-[10px]">LIVE REVENUE BLEED</span>
+      <span class="text-zinc-300">Territory Average: <strong class="text-red-400 text-sm">$25,634 / MO</strong> surrendered to unrecovered calls</span>
+    </div>
+    <div class="flex items-center gap-2 text-zinc-400 text-[11px]">
+      <span>Since Terminal Opened:</span>
+      <span class="text-red-400 font-bold text-sm bg-black px-2 py-0.5 border border-red-500/30 font-mono-jb" id="sessionBleedDisplay">+$0.00</span>
+      <span class="text-zinc-500">lost to competitors</span>
+    </div>
+  </div>
+
+  <!-- ================= MAIN WAR THEATER CONTAINER ================= -->
+  <main class="w-full max-w-5xl space-y-6">
+
+    <!-- THEATER VIDEO STAGE & HUD -->
+    <div class="hud-box rail-red p-5 sm:p-6 shadow-2xl space-y-4">
+      
+      <!-- Video Stage Header -->
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-zinc-800 pb-3 font-mono-jb text-xs">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-emerald-400 animate-pulse"></span>
+            <span class="text-white font-bold text-base tracking-wide" id="activeVideoTitle">STRIKE 01: THE SATURDAY NIGHT REVENUE LEAK</span>
+          </div>
+          <span class="text-zinc-400 text-[11px]" id="activeVideoSubtitle">RUNTIME: 59s // 1080P // TARGET: COMMERCIAL & RESIDENTIAL EMERGENCY TRADES</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-1 bg-red-950 border border-red-500/50 text-red-300 text-[10px] font-bold uppercase tracking-wider">
+            HIGH-VELOCITY COVENANT
+          </span>
+          <span class="px-2 py-1 bg-zinc-900 border border-zinc-700 text-zinc-400 text-[10px]">
+            &lt; 60 SECONDS
+          </span>
+        </div>
+      </div>
+
+      <!-- Video Player Frame -->
+      <div class="relative bg-black border border-zinc-800 overflow-hidden shadow-2xl">
+        <video id="theaterVideo" controls autoplay playsinline class="w-full h-auto max-h-[540px] mx-auto bg-black">
+          <source src="/videos/Rooftop_HVAC_unit_spinning_fans_20260928031651.mp4" type="video/mp4">
+          Your browser does not support HTML5 video.
+        </video>
+        
+        <!-- Live HUD Overlay -->
+        <div class="absolute top-3 left-3 pointer-events-none font-mono-jb text-[10px] bg-black/80 border border-zinc-800 px-2 py-1 flex items-center space-x-2 text-zinc-300 backdrop-blur-sm">
+          <span class="w-1.5 h-1.5 bg-red-500 animate-pulse"></span>
+          <span>IGNITUS HUD // 1080P 60FPS</span>
+          <span class="text-zinc-600">|</span>
+          <span class="text-emerald-400">AUDIO: STEREO MASTER</span>
+        </div>
+      </div>
+
+      <!-- 4-Strike Video Fleet Selector Tabs -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 font-mono-jb text-xs pt-1">
+        
+        <button onclick="loadStrikeVideo('/videos/Rooftop_HVAC_unit_spinning_fans_20260928031651.mp4', 'STRIKE 01: THE SATURDAY NIGHT REVENUE LEAK', 'RUNTIME: 59s // 1080P // TARGET: HVAC, PLUMBING, ROOFING', this)" 
+                class="strike-btn p-3 bg-zinc-900 border-2 border-red-500 text-left transition hover:bg-zinc-800">
+          <div class="flex justify-between items-center text-[10px]">
+            <span class="text-red-400 font-black">STRIKE 01</span>
+            <span class="text-zinc-500">59s // 3.0MB</span>
+          </div>
+          <div class="text-white font-bold text-xs mt-1">Commercial Revenue Protection</div>
+          <div class="text-zinc-400 text-[10px] mt-0.5">High-ticket commercial triage</div>
+        </button>
+
+        <button onclick="loadStrikeVideo('/videos/Tree_Surgeon-_Crane_Cleanest_Drop_20260928045517.mp4', 'STRIKE 02: HIGH-TICKET CRANE & RIGGING', 'RUNTIME: 30s // 1080P // TARGET: HIGH-TICKET COMMERCIAL TRADES', this)" 
+                class="strike-btn p-3 bg-zinc-900 border border-zinc-800 text-left transition hover:bg-zinc-800">
+          <div class="flex justify-between items-center text-[10px]">
+            <span class="text-emerald-400 font-black">STRIKE 02</span>
+            <span class="text-zinc-500">30s // 7.0MB</span>
+          </div>
+          <div class="text-white font-bold text-xs mt-1">Trust & Precision Rigging</div>
+          <div class="text-zinc-400 text-[10px] mt-0.5">Commercial heavy crane authority</div>
+        </button>
+
+        <button onclick="loadStrikeVideo('/videos/Yes_-_perfect_touch_there_20260928015717.mp4', 'OPERATOR STRIKE: SLY & SHAH PARTNER BRIEF', 'RUNTIME: 45s // 1080P // SOVEREIGN OPERATOR COVENANT', this)" 
+                class="strike-btn p-3 bg-zinc-900 border border-zinc-800 text-left transition hover:bg-zinc-800">
+          <div class="flex justify-between items-center text-[10px]">
+            <span class="text-cyan-400 font-black">OPERATOR CUT</span>
+            <span class="text-zinc-500">45s // 2.0MB</span>
+          </div>
+          <div class="text-white font-bold text-xs mt-1">Sly & Shah Covenant</div>
+          <div class="text-zinc-400 text-[10px] mt-0.5">High-velocity partner brief</div>
+        </button>
+
+        <button onclick="loadStrikeVideo('/videos/White_Glove_Concierge_booking_calendar_20260928044632.mp4', 'STRIKE 04: AUTOMATED CONCIERGE SHIELD', 'RUNTIME: 35s // 1080P // TECHNICAL SHIELD IN ACTION', this)" 
+                class="strike-btn p-3 bg-zinc-900 border border-zinc-800 text-left transition hover:bg-zinc-800">
+          <div class="flex justify-between items-center text-[10px]">
+            <span class="text-amber-400 font-black">STRIKE 04</span>
+            <span class="text-zinc-500">35s // 3.2MB</span>
+          </div>
+          <div class="text-white font-bold text-xs mt-1">White Glove Concierge</div>
+          <div class="text-zinc-400 text-[10px] mt-0.5">Automated calendar slot intercept</div>
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- ================= LIVE ACOUSTIC TRIAGE PROOF & EMERGENCY HOTLINE ================= -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      
+      <!-- Box 1: Acoustic Triage Simulator -->
+      <div class="hud-box rail-cyan p-5 space-y-3 font-mono-jb text-xs">
+        <div class="flex justify-between items-center border-b border-zinc-800 pb-2">
+          <div class="flex items-center space-x-2">
+            <span class="w-2 h-2 bg-cyan-400 animate-pulse"></span>
+            <span class="text-white font-bold text-sm">ACOUSTIC TRIAGE SIMULATION</span>
+          </div>
+          <span class="text-cyan-400 text-[10px]">TIANA AI // RING 2</span>
+        </div>
+
+        <p class="text-zinc-400 text-[11px]">
+          Listen to raw acoustic intake: Tiana intercepts an inbound 2:00 AM commercial burst pipe emergency, quotes diagnostic range, locks location, and notifies dispatch.
+        </p>
+
+        <!-- Audio Player -->
+        <div class="bg-black border border-zinc-800 p-2.5 flex items-center space-x-3">
+          <button id="audioPlayBtn" onclick="toggleAudioPreview()" class="w-10 h-10 bg-cyan-500 hover:bg-cyan-400 text-black flex items-center justify-center font-bold text-base transition">
+            <i class="fa-solid fa-play" id="audioPlayIcon"></i>
+          </button>
+          <div class="flex-1">
+            <div class="flex justify-between text-[10px] text-zinc-400 mb-1">
+              <span>TIANA_INTAKE_PROOFCUT.MP3</span>
+              <span id="audioTimer">00:00 / 00:48</span>
+            </div>
+            <div class="w-full bg-zinc-800 h-1.5 relative overflow-hidden">
+              <div id="audioProgressBar" class="bg-cyan-400 h-full w-0 transition-all duration-100"></div>
+            </div>
+          </div>
+          <audio id="tianaAudio" src="/assets/welcome_preview.mp3" preload="metadata"></audio>
+        </div>
+
+        <!-- Real-Time Acoustic Transcript -->
+        <div class="bg-[#07090e] border border-zinc-800 p-3 space-y-1.5 text-[11px] text-zinc-300 max-h-36 overflow-y-auto">
+          <div class="text-zinc-500 font-bold text-[10px]">// SYNCHRONIZED REASONING LOG</div>
+          <div><span class="text-red-400">[00:02 INBOUND]:</span> <span class="text-zinc-400">Caller dials emergency trade line...</span></div>
+          <div><span class="text-cyan-400">[00:03 TIANA AI]:</span> <span>"Ignitus Emergency Response. Sylvester's on-call field crew is active. Tell me what failed and your address."</span></div>
+          <div><span class="text-amber-400">[00:09 CALLER]:</span> <span>"Main water riser burst in equipment room, Airline Drive. Water is hitting electrical panels."</span></div>
+          <div><span class="text-emerald-400">[00:15 TIANA AI]:</span> <span>"Priority Ticket locked: Code Red Plumbing. Diagnostic range $189 confirmed. Dispatched to on-call tech in 860ms."</span></div>
+        </div>
+      </div>
+
+      <!-- Box 2: Direct Toll-Free Dial & RCS Strike Trigger -->
+      <div class="hud-box rail-green p-5 space-y-3 font-mono-jb text-xs">
+        <div class="flex justify-between items-center border-b border-zinc-800 pb-2">
+          <div class="flex items-center space-x-2">
+            <span class="w-2 h-2 bg-emerald-400 animate-pulse"></span>
+            <span class="text-white font-bold text-sm">LIVE OPERATIONAL VERIFICATION</span>
+          </div>
+          <span class="text-emerald-400 text-[10px]">STATUS: ARMED</span>
+        </div>
+
+        <p class="text-zinc-400 text-[11px]">
+          Dial Sylvester's live toll-free hotline to test Ring 2 cognitive intake, or enter your personal mobile to receive the exact Strike 01 RCS payload.
+        </p>
+
+        <!-- Click-to-Call Toll Free -->
+        <a href="tel:8333454785" class="block w-full p-3.5 bg-emerald-950/70 border border-emerald-500/60 hover:bg-emerald-900/80 transition text-center group">
+          <div class="text-emerald-400 font-bold text-[10px] uppercase tracking-wider">TAP TO CALL LIVE TOLL-FREE HOTLINE</div>
+          <div class="text-white font-black text-xl tracking-widest mt-0.5 group-hover:scale-105 transition-transform">
+            (833) 345-4785
+          </div>
+          <div class="text-emerald-300 text-[10px] mt-0.5">Tiana AI answers on Ring 2 // Gemini 3.6 Flash Active</div>
+        </a>
+
+        <!-- Transmit Strike to Handset -->
+        <div class="space-y-1.5 pt-1">
+          <label class="text-zinc-400 text-[10px] font-bold uppercase">TRANSMIT STRIKE 01 TO MOBILE HANDSET:</label>
+          <div class="flex gap-2">
+            <input type="tel" id="mobileStrikeInput" value="9453650325" placeholder="10-digit Phone #" 
+                   class="flex-1 bg-black border border-zinc-700 px-3 py-2 text-white font-mono-jb text-xs focus:outline-none focus:border-red-500">
+            <button onclick="transmitLiveStrike()" id="strikeFireBtn"
+                    class="px-4 py-2 bg-red-600 hover:bg-red-500 text-white font-bold text-xs uppercase tracking-wider transition">
+              <i class="fa-solid fa-bolt mr-1"></i>FIRE
+            </button>
+          </div>
+          <div id="strikeStatusMsg" class="text-[10px] text-zinc-500 pt-0.5">
+            Routes directly to Ultra RCS Bridge (Port 5055)
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ================= INTERACTIVE CONTRACTOR ROI SHOCK CALCULATOR ================= -->
+    <div class="hud-box rail-amber p-5 sm:p-6 space-y-4 font-mono-jb text-xs">
+      
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-zinc-800 pb-3">
+        <div>
+          <span class="text-amber-400 font-bold text-sm tracking-wide">SIX SIGMA FINANCIAL HEMORRHAGE CALCULATOR</span>
+          <div class="text-zinc-500 text-[11px]">CALCULATE THE EXACT COST OF SURRENDERED CALLS IN YOUR TERRITORY</div>
+        </div>
+        <div class="px-2.5 py-1 bg-amber-950 border border-amber-500/40 text-amber-300 text-[10px] font-bold">
+          MATHEMATICAL AUDIT
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+        
+        <!-- Controls -->
+        <div class="space-y-4">
+          <div>
+            <div class="flex justify-between text-zinc-300 mb-1">
+              <span>Unanswered After-Hours Calls / Week:</span>
+              <strong class="text-red-400 text-sm" id="valCalls">8 calls</strong>
+            </div>
+            <input type="range" id="inputCalls" min="2" max="30" value="8" step="1" 
+                   oninput="recalcROI()" class="w-full cursor-pointer">
+            <div class="flex justify-between text-[10px] text-zinc-500">
+              <span>2 calls</span>
+              <span>15 calls</span>
+              <span>30 calls</span>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between text-zinc-300 mb-1">
+              <span>Average Emergency Ticket Value:</span>
+              <strong class="text-emerald-400 text-sm" id="valTicket">$1,850</strong>
+            </div>
+            <input type="range" id="inputTicket" min="500" max="4500" value="1850" step="50" 
+                   oninput="recalcROI()" class="w-full cursor-pointer">
+            <div class="flex justify-between text-[10px] text-zinc-500">
+              <span>$500</span>
+              <span>$2,500</span>
+              <span>$4,500</span>
+            </div>
+          </div>
+
+          <div class="text-zinc-400 text-[11px] bg-black/60 p-3 border border-zinc-800 space-y-1">
+            <div class="text-zinc-500 font-bold text-[10px]">// FORMULA GROUNDING</div>
+            <div>Bleed = (Calls/Wk &times; 4.333) &times; 40% Conversion &times; Avg Ticket</div>
+            <div class="text-zinc-400">Industry standard conservative close rate on inbound emergency emergencies: 40%.</div>
+          </div>
+        </div>
+
+        <!-- Calculated Metrics Shock Box -->
+        <div class="grid grid-cols-1 gap-2.5 bg-black border border-zinc-800 p-4">
+          
+          <div class="bg-red-950/40 border border-red-500/40 p-3 flex justify-between items-center">
+            <div>
+              <div class="text-red-400 font-bold text-[10px] uppercase">MONTHLY SURRENDERED REVENUE</div>
+              <div class="text-zinc-400 text-[10px]">Bleed to competing local contractors</div>
+            </div>
+            <div class="text-red-400 font-black text-2xl tracking-wider" id="metricMonthlyBleed">
+              $25,634
+            </div>
+          </div>
+
+          <div class="bg-red-950/20 border border-red-500/20 p-3 flex justify-between items-center">
+            <div>
+              <div class="text-red-300 font-bold text-[10px] uppercase">ANNUAL CUMULATIVE BLEED</div>
+              <div class="text-zinc-500 text-[10px]">12-month lost enterprise value</div>
+            </div>
+            <div class="text-red-300 font-bold text-xl tracking-wider" id="metricAnnualBleed">
+              $307,608
+            </div>
+          </div>
+
+          <div class="bg-emerald-950/50 border border-emerald-500/50 p-3 flex justify-between items-center">
+            <div>
+              <div class="text-emerald-400 font-bold text-[10px] uppercase">TIANA AI 30-DAY RESCUED REVENUE</div>
+              <div class="text-zinc-300 text-[10px]">Net new cash flow under Ring 2 Shield</div>
+            </div>
+            <div class="text-emerald-400 font-black text-2xl tracking-wider" id="metricRescuedRevenue">
+              +$20,507
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ================= 3-ACT STRIKE NARRATIVE DOCTRINE ================= -->
+    <div class="hud-box p-5 space-y-3 font-mono-jb text-xs">
+      <div class="flex justify-between items-center border-b border-zinc-800 pb-2">
+        <span class="text-zinc-400 font-bold uppercase tracking-wider text-[11px]">BRAND CAPTAIN 3-ACT NARRATIVE DOCTRINE</span>
+        <span class="text-emerald-400">DISPATCH READY</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
+        
+        <div class="bg-black/60 border border-zinc-800 p-3 space-y-1.5">
+          <div class="text-red-400 font-bold text-[11px] flex items-center justify-between">
+            <span>ACT 1: THE BLEED</span>
+            <span class="text-zinc-600">00:00 - 00:15</span>
+          </div>
+          <p class="text-zinc-300 text-[11px] leading-relaxed">
+            "When pipes rupture at 2:00 AM or an AC compressor locks in 100-degree July heat, every unanswered call is four figures handed to your direct competitor. Missed calls are missed tickets. Tickets pay for trucks."
+          </p>
+        </div>
+
+        <div class="bg-black/60 border border-zinc-800 p-3 space-y-1.5">
+          <div class="text-cyan-400 font-bold text-[11px] flex items-center justify-between">
+            <span>ACT 2: INTERVENTION</span>
+            <span class="text-zinc-600">00:15 - 00:35</span>
+          </div>
+          <p class="text-zinc-300 text-[11px] leading-relaxed">
+            "Our Lead Guardian intercepts on ring two. No elevator music. No robot runaround. Tiana AI isolates the trade emergency, locks the customer address, calculates diagnostic fee, and pings your on-call tech under 900ms."
+          </p>
+        </div>
+
+        <div class="bg-black/60 border border-zinc-800 p-3 space-y-1.5">
+          <div class="text-emerald-400 font-bold text-[11px] flex items-center justify-between">
+            <span>ACT 3: SOVEREIGNTY</span>
+            <span class="text-zinc-600">00:35 - 00:59</span>
+          </div>
+          <p class="text-zinc-300 text-[11px] leading-relaxed">
+            "Zero missed tickets. Zero surrendered revenue. Your trucks stay rolling, your dispatch board stays packed, and your territory is locked against competitors. We only arm one contractor per market."
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Navigation Footer -->
+    <div class="flex justify-between items-center py-2 font-mono-jb text-xs text-zinc-500 border-t border-zinc-900">
+      <a href="/frontline" class="hover:text-red-400 transition">&larr; Return to Frontline Flagship Battle Station</a>
+      <span class="text-zinc-600">IGNITUS CORE // 806 AUDUBON PLACE, SHREVEPORT, LA 71105</span>
+      <a href="/master" class="hover:text-white transition">Enter Master Executive Dashboard &rarr;</a>
+    </div>
+
+  </main>
+
+  <!-- ================= CLIENT LOGIC SCRIPT ================= -->
+  <script>
+    // Live Session Bleed Counter
+    let sessionBleed = 0.00;
+    const bleedRatePerSec = (25634 / (30 * 24 * 3600)); // ~$0.00989 per second
+    setInterval(() => {
+      sessionBleed += bleedRatePerSec;
+      const el = document.getElementById('sessionBleedDisplay');
+      if (el) el.textContent = '+$' + sessionBleed.toFixed(2);
+    }, 1000);
+
+    // Video Switcher
+    function loadStrikeVideo(src, title, subtitle, btn) {
+      const vid = document.getElementById('theaterVideo');
+      const titleEl = document.getElementById('activeVideoTitle');
+      const subEl = document.getElementById('activeVideoSubtitle');
+      
+      vid.src = src;
+      vid.play();
+
+      if (titleEl) titleEl.textContent = title;
+      if (subEl) subEl.textContent = subtitle;
+
+      // Update active button state
+      document.querySelectorAll('.strike-btn').forEach(b => {
+        b.classList.remove('border-2', 'border-red-500');
+        b.classList.add('border', 'border-zinc-800');
+      });
+      if (btn) {
+        btn.classList.remove('border-zinc-800');
+        btn.classList.add('border-2', 'border-red-500');
+      }
+    }
+
+    // Audio Preview Controls
+    function toggleAudioPreview() {
+      const audio = document.getElementById('tianaAudio');
+      const icon = document.getElementById('audioPlayIcon');
+      if (audio.paused) {
+        audio.play();
+        icon.className = 'fa-solid fa-pause';
+      } else {
+        audio.pause();
+        icon.className = 'fa-solid fa-play';
+      }
+    }
+
+    const tianaAudio = document.getElementById('tianaAudio');
+    if (tianaAudio) {
+      tianaAudio.ontimeupdate = () => {
+        const cur = tianaAudio.currentTime;
+        const dur = tianaAudio.duration || 48;
+        const pct = (cur / dur) * 100;
+        document.getElementById('audioProgressBar').style.width = pct + '%';
+        const formatTime = (s) => {
+          const m = Math.floor(s / 60);
+          const sec = Math.floor(s % 60);
+          return (m < 10 ? '0' : '') + m + ':' + (sec < 10 ? '0' : '') + sec;
+        };
+        document.getElementById('audioTimer').textContent = `${formatTime(cur)} / ${formatTime(dur)}`;
+      };
+      tianaAudio.onended = () => {
+        document.getElementById('audioPlayIcon').className = 'fa-solid fa-play';
+      };
+    }
+
+    // Interactive ROI Calculator
+    function recalcROI() {
+      const calls = parseInt(document.getElementById('inputCalls').value, 10);
+      const ticket = parseInt(document.getElementById('inputTicket').value, 10);
+      
+      document.getElementById('valCalls').textContent = calls + ' calls';
+      document.getElementById('valTicket').textContent = '$' + ticket.toLocaleString();
+
+      const monthlyBleed = Math.round(calls * 4.333 * 0.40 * ticket);
+      const annualBleed = Math.round(monthlyBleed * 12);
+      const rescuedRevenue = Math.round(monthlyBleed * 0.80);
+
+      document.getElementById('metricMonthlyBleed').textContent = '$' + monthlyBleed.toLocaleString();
+      document.getElementById('metricAnnualBleed').textContent = '$' + annualBleed.toLocaleString();
+      document.getElementById('metricRescuedRevenue').textContent = '+$' + rescuedRevenue.toLocaleString();
+    }
+
+    // HARDENED CLIENT-SIDE WATCH TRACKER (Cumulative Elapsed Watch Time + sendBeacon)
+    const video = document.getElementById('strikeVideo');
+    if (video) {
+      let totalPlayTime = 0;
+      let lastTime = 0;
+      let rcsTriggered = false;
+
+      video.addEventListener('timeupdate', () => {
+        if (video.seeking) return;
+        
+        // Accumulate genuine watch duration
+        const delta = video.currentTime - lastTime;
+        if (delta > 0 && delta < 1) {
+          totalPlayTime += delta;
+        }
+        lastTime = video.currentTime;
+
+        // Fire strictly when 12 seconds of real video has been absorbed
+        if (totalPlayTime >= 12.0 && !rcsTriggered) {
+          rcsTriggered = true;
+          
+          const payload = JSON.stringify({
+            session_token: window.__IGNITUS_SESSION_TOKEN__ || 'sess_opt_318_verified',
+            actual_watch_sec: Math.round(totalPlayTime * 10) / 10
+          });
+
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon('/api/action/dispatch', payload);
+          } else {
+            fetch('/api/action/dispatch', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: payload,
+              keepalive: true
+            });
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>
