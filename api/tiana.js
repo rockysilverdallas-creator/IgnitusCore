@@ -34,9 +34,11 @@ function getSovereignKey() {
   if (process.env.SOVEREIGN_LLM_KEY && process.env.SOVEREIGN_LLM_KEY.trim()) return process.env.SOVEREIGN_LLM_KEY.trim();
   if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim()) return process.env.GEMINI_API_KEY.trim();
   if (process.env.GOOGLE_API_KEY && process.env.GOOGLE_API_KEY.trim()) return process.env.GOOGLE_API_KEY.trim();
+  if (process.env.GROQ_API_KEY && process.env.GROQ_API_KEY.trim()) return process.env.GROQ_API_KEY.trim();
+  if (process.env.OPENROUTER_API_KEY && process.env.OPENROUTER_API_KEY.trim()) return process.env.OPENROUTER_API_KEY.trim();
   for (const [k, v] of Object.entries(process.env)) {
     const clean = k.toLowerCase().replace(/[^a-z0-9]/g, "");
-    if (["sovereignkey", "sovereignllmkey", "geminiapikey", "geminikey", "googleapikey"].includes(clean)) {
+    if (["sovereignkey", "sovereignllmkey", "geminiapikey", "geminikey", "googleapikey", "googlekey"].includes(clean)) {
       if (v && v.trim()) return v.trim();
     }
   }
