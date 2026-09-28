@@ -7,6 +7,7 @@
     { "source": "/api/twilio/sms", "destination": "/api/twilio/sms.js" },
     { "source": "/api/tiana", "destination": "/api/tiana.js" },
     { "source": "/api/shah", "destination": "/api/shah.js" },
+    { "source": "/api/chat", "destination": "/api/chat.js" },
     { "source": "/api/spark_gemma", "destination": "/api/spark_gemma.js" },
     { "source": "/api/optin", "destination": "/api/optin.js" }
   ]

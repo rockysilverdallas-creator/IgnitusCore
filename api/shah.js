@@ -30,21 +30,15 @@ const CLOUD_RUN_SHAER_URL = process.env.CLOUD_RUN_SHAER_URL || "https://ignitus-
 const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || "ignitus-d1e7b";
 const LOCAL_OLLAMA_URL = process.env.OLLAMA_URL || "http://127.0.0.1:11434/api/generate";
 
-// Robust, case-tolerant, and space-tolerant Gemini / Sovereign key resolution
-function getSovereignKey() {
+import { fetchSovereignKeyFromSecretManager } from "../lib/secret_manager.js";
+
+async function getSovereignKey() {
+  if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim()) return process.env.GEMINI_API_KEY.trim();
   if (process.env.SOVEREIGN_KEY && process.env.SOVEREIGN_KEY.trim()) return process.env.SOVEREIGN_KEY.trim();
   if (process.env.SOVEREIGN_LLM_KEY && process.env.SOVEREIGN_LLM_KEY.trim()) return process.env.SOVEREIGN_LLM_KEY.trim();
-  if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim()) return process.env.GEMINI_API_KEY.trim();
   if (process.env.GOOGLE_API_KEY && process.env.GOOGLE_API_KEY.trim()) return process.env.GOOGLE_API_KEY.trim();
-  if (process.env.GROQ_API_KEY && process.env.GROQ_API_KEY.trim()) return process.env.GROQ_API_KEY.trim();
-  if (process.env.OPENROUTER_API_KEY && process.env.OPENROUTER_API_KEY.trim()) return process.env.OPENROUTER_API_KEY.trim();
-
-  for (const [key, val] of Object.entries(process.env)) {
-    const clean = key.toLowerCase().replace(/[^a-z0-9]/g, "");
-    if (["sovereignkey", "sovereignllmkey", "geminiapikey", "geminikey", "googleapikey"].includes(clean)) {
-      if (val && val.trim()) return val.trim();
-    }
-  }
+  const fallbackKey = await fetchSovereignKeyFromSecretManager();
+  if (fallbackKey) return fallbackKey;
   return "";
 }
 
@@ -97,7 +91,7 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
-  const apiKey = getSovereignKey();
+  const apiKey = await getSovereignKey();
 
   // GET: Full Capability Discovery & Neural Telemetry
   if (req.method === "GET") {
