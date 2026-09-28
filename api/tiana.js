@@ -30,9 +30,9 @@ const CLOUD_RUN_SHAER_URL = process.env.CLOUD_RUN_SHAER_URL || "https://ignitus-
 const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || "ignitus-d1e7b";
 
 function getSovereignKey() {
-  if (process.env.GEMINI_API_KEY) return process.env.GEMINI_API_KEY.trim();
-  if (process.env.GOOGLE_API_KEY) return process.env.GOOGLE_API_KEY.trim();
-  if (process.env.SOVEREIGN_LLM_KEY) return process.env.SOVEREIGN_LLM_KEY.trim();
+  if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim()) return process.env.GEMINI_API_KEY.trim();
+  if (process.env.GOOGLE_API_KEY && process.env.GOOGLE_API_KEY.trim()) return process.env.GOOGLE_API_KEY.trim();
+  if (process.env.SOVEREIGN_LLM_KEY && process.env.SOVEREIGN_LLM_KEY.trim()) return process.env.SOVEREIGN_LLM_KEY.trim();
   for (const [k, v] of Object.entries(process.env)) {
     const clean = k.toLowerCase().replace(/[^a-z0-9]/g, "");
     if (["geminiapikey", "geminikey", "googleapikey"].includes(clean)) {
@@ -108,33 +108,47 @@ export default async function handler(req, res) {
 
     let reasonedReply = "";
 
-    // 1. FULL COGNITIVE REASONING VIA GEMINI 3.6 FLASH
+    // 1. FULL COGNITIVE REASONING VIA GEMINI 3.8 FLASH / REASONING ENGINE
     if (apiKey && message) {
-      const models = ["gemini-3.6-flash", "gemini-3.8-flash", "gemini-flash-latest"];
+      const models = ["gemini-3.8-flash", "gemini-2.5-flash", "gemini-2.0-flash"];
+      const isBearer = apiKey.startsWith("ya29.");
+      
       for (const model of models) {
         try {
-          const aiResponse = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                contents: [
-                  {
-                    parts: [
-                      {
-                        text: `${TIANA_SYSTEM_CORE}\n\nCOMMANDER: Sylvester George Bhatti\nCLIENT NAME: ${name}\nTRADE SECTOR: ${trade}\nPHONE: ${phone || "Not provided yet"}\nEQUIPMENT/SPECS: ${equipment_details || "Unspecified"}\nINCOMING INQUIRY OR DIRECTIVE: "${message}"\n\nTIANA RESPONSE (direct, conversational, sub-12ms triage posture, max 3 sentences):`
-                      }
-                    ]
-                  }
-                ],
-                generationConfig: {
-                  temperature: 0.65,
-                  maxOutputTokens: 2048,
+          const url = isBearer
+            ? `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`
+            : `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+            
+          const headers = { "Content-Type": "application/json" };
+          if (isBearer) {
+            headers["Authorization"] = `Bearer ${apiKey}`;
+          } else {
+            headers["x-goog-api-key"] = apiKey;
+          }
+
+          const aiResponse = await fetch(url, {
+            method: "POST",
+            headers,
+            body: JSON.stringify({
+              systemInstruction: {
+                parts: [{ text: TIANA_SYSTEM_CORE }]
+              },
+              contents: [
+                {
+                  role: "user",
+                  parts: [
+                    {
+                      text: `COMMANDER: Sylvester George Bhatti\nCLIENT NAME: ${name}\nTRADE SECTOR: ${trade}\nPHONE: ${phone || "Not provided yet"}\nEQUIPMENT/SPECS: ${equipment_details || "Unspecified"}\nINCOMING INQUIRY OR DIRECTIVE: "${message}"\n\nProvide a direct, empathetic, trade-authoritative response (max 3 sentences) that specifically addresses the exact inquiry above.`
+                    }
+                  ]
                 }
-              })
-            }
-          );
+              ],
+              generationConfig: {
+                temperature: 0.7,
+                maxOutputTokens: 1024,
+              }
+            })
+          });
 
           if (aiResponse.ok) {
             const aiData = await aiResponse.json();

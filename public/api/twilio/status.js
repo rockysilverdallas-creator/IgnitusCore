@@ -84,7 +84,7 @@ export default async function handler(req, res) {
           trade_sector: "Short Call Drop Recovery",
           inquiry: `Inbound caller dropped after ${duration}s (Status: ${callStatus}). SMS triage dispatched.`,
           source: "twilio_3sec_drop_trap",
-          v_bleed_recovered: 1450,
+          v_bleed_recovered: 0,
           timestamp_utc: timestamp
         })
       }).catch(err => console.error("Telemetry error:", err.message));

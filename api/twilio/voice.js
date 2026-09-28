@@ -28,9 +28,9 @@ const CLOUD_RUN_SHAER_URL = process.env.CLOUD_RUN_SHAER_URL || "https://ignitus-
 const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || "ignitus-d1e7b";
 
 function getGeminiApiKey() {
-  if (process.env.GEMINI_API_KEY) return process.env.GEMINI_API_KEY.trim();
-  if (process.env.GOOGLE_API_KEY) return process.env.GOOGLE_API_KEY.trim();
-  if (process.env.SOVEREIGN_LLM_KEY) return process.env.SOVEREIGN_LLM_KEY.trim();
+  if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim()) return process.env.GEMINI_API_KEY.trim();
+  if (process.env.GOOGLE_API_KEY && process.env.GOOGLE_API_KEY.trim()) return process.env.GOOGLE_API_KEY.trim();
+  if (process.env.SOVEREIGN_LLM_KEY && process.env.SOVEREIGN_LLM_KEY.trim()) return process.env.SOVEREIGN_LLM_KEY.trim();
   for (const [k, v] of Object.entries(process.env)) {
     const clean = k.toLowerCase().replace(/[^a-z0-9]/g, "");
     if (["geminiapikey", "geminikey", "googleapikey"].includes(clean)) {
@@ -90,15 +90,28 @@ export default async function handler(req, res) {
   let humanResponseText = "";
 
   if (apiKey) {
-    try {
-      const aiResponse = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
-        {
+    const models = ["gemini-3.8-flash", "gemini-2.5-flash", "gemini-2.0-flash"];
+    const isBearer = apiKey.startsWith("ya29.");
+    for (const model of models) {
+      try {
+        const url = isBearer
+          ? `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`
+          : `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
+        const headers = { "Content-Type": "application/json" };
+        if (isBearer) {
+          headers["Authorization"] = `Bearer ${apiKey}`;
+        } else {
+          headers["x-goog-api-key"] = apiKey;
+        }
+
+        const aiResponse = await fetch(url, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers,
           body: JSON.stringify({
             contents: [
               {
+                role: "user",
                 parts: [
                   {
                     text: TIANA_HUMAN_CONVERSATIONAL_PROMPT.replace("{SPEECH}", speechInput)
@@ -111,16 +124,17 @@ export default async function handler(req, res) {
               maxOutputTokens: 256,
             }
           })
-        }
-      );
+        });
 
-      if (aiResponse.ok) {
-        const data = await aiResponse.json();
-        const parts = data.candidates?.[0]?.content?.parts || [];
-        humanResponseText = parts.map(p => p.text || "").join("").trim();
-        humanResponseText = humanResponseText.replace(/[*_#`]/g, "").trim();
-      }
-    } catch (_) {}
+        if (aiResponse.ok) {
+          const data = await aiResponse.json();
+          const parts = data.candidates?.[0]?.content?.parts || [];
+          humanResponseText = parts.map(p => p.text || "").join("").trim();
+          humanResponseText = humanResponseText.replace(/[*_#`]/g, "").trim();
+          if (humanResponseText) break;
+        }
+      } catch (_) {}
+    }
   }
 
   if (!humanResponseText) {

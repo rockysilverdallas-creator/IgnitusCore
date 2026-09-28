@@ -31,11 +31,11 @@ const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || "ignitus-d1e7b";
 
 // Robust, case-tolerant, and space-tolerant Gemini API key resolution
 function getGeminiApiKey() {
-  if (process.env.GEMINI_API_KEY) return process.env.GEMINI_API_KEY.trim();
-  if (process.env.GOOGLE_API_KEY) return process.env.GOOGLE_API_KEY.trim();
-  if (process.env.SOVEREIGN_LLM_KEY) return process.env.SOVEREIGN_LLM_KEY.trim();
-  if (process.env.GROQ_API_KEY) return process.env.GROQ_API_KEY.trim();
-  if (process.env.OPENROUTER_API_KEY) return process.env.OPENROUTER_API_KEY.trim();
+  if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim()) return process.env.GEMINI_API_KEY.trim();
+  if (process.env.GOOGLE_API_KEY && process.env.GOOGLE_API_KEY.trim()) return process.env.GOOGLE_API_KEY.trim();
+  if (process.env.SOVEREIGN_LLM_KEY && process.env.SOVEREIGN_LLM_KEY.trim()) return process.env.SOVEREIGN_LLM_KEY.trim();
+  if (process.env.GROQ_API_KEY && process.env.GROQ_API_KEY.trim()) return process.env.GROQ_API_KEY.trim();
+  if (process.env.OPENROUTER_API_KEY && process.env.OPENROUTER_API_KEY.trim()) return process.env.OPENROUTER_API_KEY.trim();
   
   for (const [key, val] of Object.entries(process.env)) {
     const clean = key.toLowerCase().replace(/[^a-z0-9]/g, "");
@@ -165,20 +165,36 @@ Rules:
 
     // 2. TIER TWO: Direct Cloud Intelligence using your bound GEMINI_API_KEY
     if (!sparkOutput && currentKey) {
-      const modelsToTry = ["gemini-2.0-flash", "gemini-1.5-flash"];
+      const modelsToTry = ["gemini-3.8-flash", "gemini-2.5-flash", "gemini-2.0-flash"];
+      const isBearer = currentKey.startsWith("ya29.");
       for (const model of modelsToTry) {
         try {
+          const url = isBearer
+            ? `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`
+            : `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${currentKey}`;
+            
+          const headers = { "Content-Type": "application/json" };
+          if (isBearer) {
+            headers["Authorization"] = `Bearer ${currentKey}`;
+          } else {
+            headers["x-goog-api-key"] = currentKey;
+          }
+
           const aiResponse = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${currentKey}`,
+            url,
             {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
+              headers,
               body: JSON.stringify({
+                systemInstruction: {
+                  parts: [{ text: systemPrompt }]
+                },
                 contents: [
                   {
+                    role: "user",
                     parts: [
                       {
-                        text: `${systemPrompt}\n\nTRACE_ID: ${trace_id}\nWORKFLOW: ${workflow}\nTASK: ${task}\nTARGET: ${target}\nPAYLOAD: ${JSON.stringify(payload)}\nINSTRUCTION: ${prompt}`
+                        text: `TRACE_ID: ${trace_id}\nWORKFLOW: ${workflow}\nTASK: ${task}\nTARGET: ${target}\nPAYLOAD: ${JSON.stringify(payload)}\nINSTRUCTION: ${prompt}`
                       }
                     ]
                   }

@@ -32,11 +32,11 @@ const LOCAL_OLLAMA_URL = process.env.OLLAMA_URL || "http://127.0.0.1:11434/api/g
 
 // Robust, case-tolerant, and space-tolerant Gemini / Sovereign key resolution
 function getSovereignKey() {
-  if (process.env.GEMINI_API_KEY) return process.env.GEMINI_API_KEY.trim();
-  if (process.env.GOOGLE_API_KEY) return process.env.GOOGLE_API_KEY.trim();
-  if (process.env.SOVEREIGN_LLM_KEY) return process.env.SOVEREIGN_LLM_KEY.trim();
-  if (process.env.GROQ_API_KEY) return process.env.GROQ_API_KEY.trim();
-  if (process.env.OPENROUTER_API_KEY) return process.env.OPENROUTER_API_KEY.trim();
+  if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim()) return process.env.GEMINI_API_KEY.trim();
+  if (process.env.GOOGLE_API_KEY && process.env.GOOGLE_API_KEY.trim()) return process.env.GOOGLE_API_KEY.trim();
+  if (process.env.SOVEREIGN_LLM_KEY && process.env.SOVEREIGN_LLM_KEY.trim()) return process.env.SOVEREIGN_LLM_KEY.trim();
+  if (process.env.GROQ_API_KEY && process.env.GROQ_API_KEY.trim()) return process.env.GROQ_API_KEY.trim();
+  if (process.env.OPENROUTER_API_KEY && process.env.OPENROUTER_API_KEY.trim()) return process.env.OPENROUTER_API_KEY.trim();
 
   for (const [key, val] of Object.entries(process.env)) {
     const clean = key.toLowerCase().replace(/[^a-z0-9]/g, "");
@@ -180,33 +180,46 @@ export default async function handler(req, res) {
       } catch (_) {}
     }
 
-    // 2. TIER TWO: Cloud Accelerated Sovereign Intelligence (Gemini 3.6 Flash / 3.8 Flash / Flash Latest)
+    // 2. TIER TWO: Cloud Accelerated Sovereign Intelligence (Gemini 3.8 Flash / 2.5 Flash / Flash Latest)
     if (!reasonedOutput && apiKey) {
-      const models = ["gemini-3.6-flash", "gemini-3.8-flash", "gemini-flash-latest"];
+      const models = ["gemini-3.8-flash", "gemini-2.5-flash", "gemini-2.0-flash"];
+      const isBearer = apiKey.startsWith("ya29.");
       for (const model of models) {
         try {
-          const aiResponse = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                contents: [
-                  {
-                    parts: [
-                      {
-                        text: `${SHAH_SYSTEM_DIRECTIVE}\n\nTRACE_ID: ${traceId}\nWORKFLOW: ${workflow}\nCOMMANDER: Sylvester George Bhatti (IGN-1001-1)\nCLIENT: ${client_name} (${trade})\nV_BLEED_AUDIT: $${vBleedMetrics.v_bleed_monthly}/mo leaked across ${vBleedMetrics.calls_missed_per_month} calls ($${vBleedMetrics.v_bleed_annual}/yr).\nTASK: ${task}\nDIRECTIVE FROM SLY: ${prompt || "Generate immediate tactical response and front-end state dispatch."}`
-                      }
-                    ]
-                  }
-                ],
-                generationConfig: {
-                  temperature: 0.65,
-                  maxOutputTokens: 2048,
+          const url = isBearer
+            ? `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`
+            : `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
+          const headers = { "Content-Type": "application/json" };
+          if (isBearer) {
+            headers["Authorization"] = `Bearer ${apiKey}`;
+          } else {
+            headers["x-goog-api-key"] = apiKey;
+          }
+
+          const aiResponse = await fetch(url, {
+            method: "POST",
+            headers,
+            body: JSON.stringify({
+              systemInstruction: {
+                parts: [{ text: SHAH_SYSTEM_DIRECTIVE }]
+              },
+              contents: [
+                {
+                  role: "user",
+                  parts: [
+                    {
+                      text: `TRACE_ID: ${traceId}\nWORKFLOW: ${workflow}\nCOMMANDER: Sylvester George Bhatti (IGN-1001-1)\nCLIENT: ${client_name} (${trade})\nV_BLEED_AUDIT: $${vBleedMetrics.v_bleed_monthly}/mo leaked across ${vBleedMetrics.calls_missed_per_month} calls ($${vBleedMetrics.v_bleed_annual}/yr).\nTASK: ${task}\nDIRECTIVE FROM SLY: ${prompt || "Generate immediate tactical response and front-end state dispatch."}`
+                    }
+                  ]
                 }
-              })
-            }
-          );
+              ],
+              generationConfig: {
+                temperature: 0.65,
+                maxOutputTokens: 2048,
+              }
+            })
+          });
 
           if (aiResponse.ok) {
             const aiData = await aiResponse.json();

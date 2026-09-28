@@ -230,31 +230,6 @@
     }, { threshold: 0.1 });
     reveals.forEach(el => observer.observe(el));
 
-    // MECHANISM 1: GHOST FORM ONBLUR RECOVERY LISTENER
-    document.addEventListener('DOMContentLoaded', () => {
-      let ghostTimer = null;
-      let capturedPhone = '';
-      
-      document.querySelectorAll('input[type="tel"], input[name*="phone"]').forEach(input => {
-        input.addEventListener('blur', (e) => {
-          const val = e.target.value.trim();
-          if (val.length >= 10 && val !== capturedPhone) {
-            capturedPhone = val;
-            clearTimeout(ghostTimer);
-            ghostTimer = setTimeout(() => {
-              fetch('/api/ghost_form', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  phone: capturedPhone,
-                  name: 'Website Visitor',
-                  page_url: window.location.href
-                })
-              }).catch(() => {});
-            }, 90000); // 90s recovery trigger
-          }
-        });
-      });
     });
   </script>
 </body>

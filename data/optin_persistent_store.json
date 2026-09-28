@@ -1,0 +1,27 @@
+{
+  "stop_list": [],
+  "rate_limits": {
+    "12ca17b49af22894": {
+      "count": 1,
+      "resetTime": 1790446216927
+    },
+    "+13185550199": {
+      "count": 1,
+      "resetTime": 1790446216939
+    }
+  },
+  "consent_records": {
+    "288dbed088ea1961ec83aea300e60f22ad6df19b83e4999e89d7a91efa25cd61": {
+      "request_id": "optin_req_1790445316940_5f50be62",
+      "phone": "+13185550199",
+      "name": "Test User",
+      "timestamp": "2026-09-26T17:55:16.940Z",
+      "page_url": "https://ignituscore.com/optin/",
+      "disclosure_version": "v2026.09.26-A2P-DIRECT-CONSENT-v1",
+      "consent_type": "EXPLICIT_WEB_CHECKBOX",
+      "ip_hash": "12ca17b49af22894",
+      "user_agent": "Unknown Browser"
+    }
+  },
+  "last_persisted": "2026-09-26T17:55:16.941Z"
+}

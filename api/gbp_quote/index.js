@@ -1,8 +1,7 @@
-// Vercel Serverless Function: Ghost Form / Incomplete Form Recovery API
-// Route: /api/ghost_form
-// Mechanism 1: Incomplete Form Recovery (Website Leak)
-// GATED: Only sends SMS if prior opt-in consent exists for the mobile number.
-// Unconsented abandonments are logged to telemetry without texting.
+// Vercel Serverless Function: Google Business Profile (GBP) & "Request a Quote" Webhook Router
+// Route: /api/gbp_quote
+// Mechanism 2: Google Business Profile (GBP) & "Request a Quote" Routing
+// Sub-60-second response asking 1 qualification question + real-time owner alert SMS.
 
 import fs from "fs";
 import path from "path";
@@ -30,9 +29,7 @@ const CLOUD_RUN_SHAER_URL = process.env.CLOUD_RUN_SHAER_URL || "https://ignitus-
 const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID;
 const TWILIO_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN;
 const TWILIO_FROM_NUMBER = process.env.TWILIO_FROM_NUMBER || "+18333454785";
-
-// Shared consent store
-globalThis.CONSENTED_PHONES = globalThis.CONSENTED_PHONES || new Set();
+const OWNER_ALERT_PHONE = process.env.OWNER_ALERT_PHONE || "+18333454785";
 
 async function sendTwilioSMS(toPhone, messageBody) {
   if (!TWILIO_ACCOUNT_SID || !TWILIO_AUTH_TOKEN) return false;
@@ -55,7 +52,7 @@ async function sendTwilioSMS(toPhone, messageBody) {
     });
     return res.ok;
   } catch (err) {
-    console.error("[GHOST FORM TWILIO ERR]", err);
+    console.error("[GBP TWILIO SMS ERR]", err);
     return false;
   }
 }
@@ -75,10 +72,9 @@ export default async function handler(req, res) {
 
   if (req.method === "GET") {
     return res.status(200).json({
-      service: "GHOST_FORM_RECOVERY_ENGINE",
-      status: "ACTIVE",
-      consent_gate_enabled: true,
-      description: "Captures onBlur phone entry. Logs abandonment telemetry; SMS dispatch requires prior opt-in consent."
+      service: "GBP_QUOTE_ROUTER",
+      status: "ARMED_AND_ACTIVE",
+      description: "Ingests Google Business Messages / GBP quote requests, dispatches instant SMS triage & owner alert."
     });
   }
 
@@ -88,62 +84,58 @@ export default async function handler(req, res) {
 
   try {
     const {
+      sender_name = "Google User",
       phone = "",
-      name = "Visitor",
-      trade = "Service Inquiry",
-      page_url = "https://ignituscore.com"
+      message = "",
+      service_requested = "General Quote",
+      location = "Shreveport"
     } = req.body || {};
 
-    if (!phone || phone.replace(/\D/g, "").length < 10) {
-      return res.status(400).json({ error: "Valid mobile phone number required" });
-    }
-
-    const cleanPhone = phone.startsWith("+") ? phone : `+1${phone.replace(/\D/g, "")}`;
+    const cleanPhone = phone ? (phone.startsWith("+") ? phone : `+1${phone.replace(/\D/g, "")}`) : null;
     const timestamp = new Date().toISOString();
 
-    // STRICT CONSENT GATE CHECK: NO PRIOR OPT-IN = NO TEXT
-    const hasConsent = globalThis.CONSENTED_PHONES.has(cleanPhone);
+    let smsCustomerSent = false;
+    let smsOwnerSent = false;
 
-    let smsSent = false;
-    let gateReason = "NO_PRIOR_OPT_IN_CONSENT";
-
-    if (hasConsent) {
-      const recoveryMsg = `Hey ${name}, saw you were checking on an estimate with Ignitus Core in Shreveport. Did your page freeze, or did you still need help today?`;
-      smsSent = await sendTwilioSMS(cleanPhone, recoveryMsg);
-      gateReason = "CONSENT_VERIFIED_SMS_DISPATCHED";
-    } else {
-      console.log(`[GHOST FORM CONSENT GATE] ${cleanPhone} has no prior opt-in consent. SMS blocked, logging abandonment telemetry.`);
+    // 1. Instant Automated Sub-60s Qualification Response to Lead (if phone provided)
+    if (cleanPhone) {
+      const qualificationMsg = `Hey ${sender_name}! Thanks for reaching out via Google for Ignitus Core in ${location}. What is the main issue or service you need help with today?`;
+      smsCustomerSent = await sendTwilioSMS(cleanPhone, qualificationMsg);
     }
 
-    // Always log abandonment telemetry to Cloud Run / Sovereign Ledger
+    // 2. Real-time Alert to Business Owner
+    const ownerAlertMsg = `🚨 HOT GBP LEAD! ${sender_name} requested a quote on Google (${location}). Msg: "${message || service_requested}". Phone: ${cleanPhone || "Check GBP Console"}`;
+    smsOwnerSent = await sendTwilioSMS(OWNER_ALERT_PHONE, ownerAlertMsg);
+
+    // 3. Telemetry Dispatch to Cloud Run / Bleed Posture Matrix
     try {
       fetch(CLOUD_RUN_SHAER_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          client_name: name,
-          contact_phone: cleanPhone,
-          trade_sector: trade,
-          inquiry: `Ghost Form Abandonment on ${page_url} (Consent Status: ${hasConsent ? "OPTED_IN" : "GATED_NO_OPT_IN"})`,
-          source: "ghost_form_abandonment",
-          v_bleed_recovered: hasConsent ? 1450 : 0,
+          client_name: sender_name,
+          contact_phone: cleanPhone || "GBP_MESSAGING",
+          trade_sector: service_requested,
+          inquiry: `Google Business Profile Quote Request: "${message || service_requested}" in ${location}. Sub-60s triage fired.`,
+          source: "gbp_request_quote_routing",
+          v_bleed_recovered: 0,
           timestamp_utc: timestamp
         })
       }).catch(() => {});
     } catch (_) {}
 
     return res.status(200).json({
-      status: hasConsent ? "SUCCESS" : "ABANDONMENT_LOGGED",
-      mechanism: "GHOST_FORM_RECOVERY",
-      phone: cleanPhone,
-      sms_dispatched: smsSent,
-      consent_gate_status: gateReason,
+      status: "SUCCESS",
+      mechanism: "GBP_QUOTE_ROUTER",
+      sender_name,
+      customer_sms_dispatched: smsCustomerSent,
+      owner_alert_dispatched: smsOwnerSent,
       timestamp
     });
 
   } catch (error) {
     return res.status(500).json({
-      error: "Ghost Form Handler Error",
+      error: "GBP Router Handler Error",
       details: error.message
     });
   }

@@ -118,7 +118,7 @@ export default async function handler(req, res) {
           trade_sector: service_requested,
           inquiry: `Google Business Profile Quote Request: "${message || service_requested}" in ${location}. Sub-60s triage fired.`,
           source: "gbp_request_quote_routing",
-          v_bleed_recovered: 1450,
+          v_bleed_recovered: 0,
           timestamp_utc: timestamp
         })
       }).catch(() => {});
