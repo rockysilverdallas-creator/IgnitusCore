@@ -1,14 +1,19 @@
 {
   "version": 2,
-  "rewrites": [
-    { "source": "/api/twilio/voice", "destination": "/api/twilio/voice.js" },
-    { "source": "/api/twilio/fallback", "destination": "/api/twilio/fallback.js" },
-    { "source": "/api/twilio/screen", "destination": "/api/twilio/screen.js" },
-    { "source": "/api/twilio/status", "destination": "/api/twilio/status.js" },
-    { "source": "/api/twilio/sms", "destination": "/api/twilio/sms.js" },
-    { "source": "/api/tiana", "destination": "/api/tiana.js" },
-    { "source": "/api/shah", "destination": "/api/shah.js" },
-    { "source": "/api/spark_gemma", "destination": "/api/spark_gemma.js" },
-    { "source": "/api/optin", "destination": "/api/optin.js" }
+  "builds": [
+    { "src": "api/**/*.js", "use": "@vercel/node" },
+    { "src": "public/**/*", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/api/twilio/voice", "dest": "/api/twilio/voice.js" },
+    { "src": "/api/twilio/fallback", "dest": "/api/twilio/fallback.js" },
+    { "src": "/api/twilio/screen", "dest": "/api/twilio/screen.js" },
+    { "src": "/api/twilio/status", "dest": "/api/twilio/status.js" },
+    { "src": "/api/twilio/sms", "dest": "/api/twilio/sms.js" },
+    { "src": "/api/tiana", "dest": "/api/tiana.js" },
+    { "src": "/api/shah", "dest": "/api/shah.js" },
+    { "src": "/api/spark_gemma", "dest": "/api/spark_gemma.js" },
+    { "src": "/api/optin", "dest": "/api/optin.js" },
+    { "src": "/(.*)", "dest": "/public/$1" }
   ]
 }
