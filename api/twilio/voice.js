@@ -27,17 +27,11 @@ try {
 const CLOUD_RUN_SHAER_URL = process.env.CLOUD_RUN_SHAER_URL || "https://ignitus-shaer-fauxnyn7sa-uc.a.run.app/api/action/dispatch";
 const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || "ignitus-d1e7b";
 
-function getGeminiApiKey() {
-  if (process.env.SOVEREIGN_KEY && process.env.SOVEREIGN_KEY.trim()) return process.env.SOVEREIGN_KEY.trim();
-  if (process.env.SOVEREIGN_LLM_KEY && process.env.SOVEREIGN_LLM_KEY.trim()) return process.env.SOVEREIGN_LLM_KEY.trim();
-  if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim()) return process.env.GEMINI_API_KEY.trim();
-  if (process.env.GOOGLE_API_KEY && process.env.GOOGLE_API_KEY.trim()) return process.env.GOOGLE_API_KEY.trim();
-  for (const [k, v] of Object.entries(process.env)) {
-    const clean = k.toLowerCase().replace(/[^a-z0-9]/g, "");
-    if (["sovereignkey", "sovereignllmkey", "geminiapikey", "geminikey", "googleapikey", "googlekey"].includes(clean)) {
-      if (v && v.trim()) return v.trim();
-    }
-  }
+import { fetchSovereignKeyFromSecretManager } from "../secret_manager.js";
+
+async function getGeminiApiKey() {
+  const key = await fetchSovereignKeyFromSecretManager();
+  if (key) return key;
   return "";
 }
 
@@ -57,7 +51,7 @@ export default async function handler(req, res) {
   const callerNumber = req.body?.From || req.query?.From || "Unknown Caller";
   const callSid = req.body?.CallSid || req.query?.CallSid || `call_${Date.now()}`;
   const speechInput = req.body?.SpeechResult || req.query?.SpeechResult || "";
-  const apiKey = getGeminiApiKey();
+  const apiKey = await getGeminiApiKey();
 
   // TURN 1: NATURAL HUMAN GREETING (No robotic IVR prompts)
   if (!speechInput) {
