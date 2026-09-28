@@ -1,3 +1,14 @@
 {
-  "cleanUrls": true
+  "version": 2,
+  "rewrites": [
+    { "source": "/api/twilio/voice", "destination": "/api/twilio/voice.js" },
+    { "source": "/api/twilio/fallback", "destination": "/api/twilio/fallback.js" },
+    { "source": "/api/twilio/screen", "destination": "/api/twilio/screen.js" },
+    { "source": "/api/twilio/status", "destination": "/api/twilio/status.js" },
+    { "source": "/api/twilio/sms", "destination": "/api/twilio/sms.js" },
+    { "source": "/api/tiana", "destination": "/api/tiana.js" },
+    { "source": "/api/shah", "destination": "/api/shah.js" },
+    { "source": "/api/spark_gemma", "destination": "/api/spark_gemma.js" },
+    { "source": "/api/optin", "destination": "/api/optin.js" }
+  ]
 }
