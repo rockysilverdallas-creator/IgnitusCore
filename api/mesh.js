@@ -1,4 +1,11 @@
 // Vercel Serverless Function: Ignitus Mesh Node Interaction Nexus
+// Also serves /api/stream via ?stream=1 (consolidated from api/stream.js)
+
+import streamHandler from "../lib/stream.js";
+
+export const config = {
+  maxDuration: 60,
+};
 // Route: /api/mesh
 // Allows operators and agents to query node topology, interact with geographic/agent nodes, and broadcast commands
 
@@ -58,6 +65,10 @@ const MESH_NODES = {
 };
 
 export default async function handler(req, res) {
+  // Consolidated SSE telemetry stream (was api/stream.js)
+  if (req.query?.stream === "1") {
+    return streamHandler(req, res);
+  }
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
