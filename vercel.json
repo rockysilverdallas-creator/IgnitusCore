@@ -1,4 +1,10 @@
 {
+  "functions": {
+    "api/**/*.js": {
+      "maxDuration": 10,
+      "memory": 256
+    }
+  },
   "rewrites": [
     { "source": "/api/twilio/:action", "destination": "/api/twilio?action=:action" },
     { "source": "/api/tiana", "destination": "/api/tiana.js" },
