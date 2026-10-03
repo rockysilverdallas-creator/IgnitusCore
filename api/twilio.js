@@ -1,10 +1,10 @@
 // Consolidated Twilio webhook dispatcher — 5 endpoints, 1 function.
 // Vercel rewrite: /api/twilio/:action -> /api/twilio?action=:action
-import voiceHandler from "..//api/twilio?action=voice";
+import voiceHandler from "../lib/twilio/voice.js";
 import smsHandler from "../lib/twilio/sms.js";
 import statusHandler from "../lib/twilio/status.js";
 import screenHandler from "../lib/twilio/screen.js";
-import fallbackHandler from "..//api/twilio?action=voice";
+import fallbackHandler from "../lib/twilio/voice.js";
 
 const handlers = {
   voice: voiceHandler,
