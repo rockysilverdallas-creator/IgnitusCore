@@ -1,6 +1,12 @@
 // Consolidated Twilio webhook dispatcher — 5 endpoints, 1 function.
-// Fix 2026-10-03: status callbacks carry CallSid too — CallStatus is now
-// checked FIRST so they route to status, not voice.
+// Fix 2026-10-03 (rev 2): REVERTED the CallStatus-first check. The voice
+// webhook ("A call comes in") sends CallSid AND CallStatus=ringing, so
+// checking CallStatus first routed live calls to the status handler, which
+// returns JSON instead of TwiML -> Twilio played "application error".
+// Deterministic routing: set the Twilio console URLs with explicit actions:
+//   Voice URL:      /api/twilio?action=voice
+//   Status callback: /api/twilio?action=status
+// Auto-detect below is only the fallback when no action param is present.
 import voiceHandler from "../lib/twilio/voice.js";
 import smsHandler from "../lib/twilio/sms.js";
 import statusHandler from "../lib/twilio/status.js";
@@ -15,15 +21,15 @@ const handlers = {
 };
 
 export default async function handler(req, res) {
-  // 1. Get action from query, OR auto-detect from Twilio payload
+  // 1. Explicit action param wins — this is the deterministic route.
   let action = req.query?.action;
 
+  // 2. Fallback auto-detect: a CallSid with no action param is an incoming
+  //    call -> voice. (Status callbacks must use ?action=status.)
   if (!action) {
     const body = req.body || {};
     const query = req.query || {};
-    if (body.CallStatus || query.CallStatus) {
-      action = "status"; // Status callback — check BEFORE CallSid
-    } else if (body.CallSid || query.CallSid) {
+    if (body.CallSid || query.CallSid) {
       action = "voice"; // Incoming phone call
     } else if (body.MessageSid || body.SmsSid) {
       action = "sms"; // Incoming text message
